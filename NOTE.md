@@ -1,5 +1,71 @@
-## Introduction to Deep Learning
+# Introduction to Deep Learning
 
+<br>
+<br>
+
+# C-2: Deep Learning
+
+<br>
+<br>
+
+
+<br>
+
+<img src="images/ml.png" width="600" height=auto>
+
+<br>
+
+## Deciding When to Use Deep Learning
+
+Deep Learning is a powerful tool in machine learning, but it's not always the optimal choice. Here's a guide to help you make informed decisions:
+
+## Task Types
+
+### Classification
+- **Binary Classification**
+  - Deep Learning: Complex decision boundaries
+  - Alternatives: Logistic Regression, Decision Trees, SVMs
+
+- **Multi-class Classification**
+  - Deep Learning: Complex patterns, many classes
+  - Alternatives: Decision Trees, SVMs
+
+### Regression
+- Deep Learning: Non-linear relationships
+- Alternatives: Linear Regression, Decision Trees
+
+## Data Considerations
+
+### By Data Type
+- **Images**: Deep Learning (CNNs) excels
+- **Text**: Deep Learning (Transformers, RNNs) preferred
+- **Tabular**: Traditional ML often better
+
+### By Dataset Size
+- **Large**: Deep Learning thrives
+- **Small**: Traditional ML methods preferred
+
+## When to Use Deep Learning
+- Complex, non-linear patterns
+- Large amounts of data available
+- Unstructured data (images/text)
+- Automatic feature extraction needed
+- State-of-the-art performance required
+
+## When to Avoid Deep Learning
+- Small datasets
+- Need for model interpretability
+- Simple, linear relationships
+- Limited computational resources
+- Quick iteration requirements
+
+Remember: Start with the simplest solution. Consider Deep Learning only after simpler approaches prove inadequate.
+
+
+
+# C-3: Minimizing Error Function with Gradient Descent
+# C-4: Intro to Neural Networks
+# C-5: Training Neural Networks
 
 1. Artificial Intelligence is an overarching field that includes algorithms such as local search and logic programming.
 2. Machine Learning is a part of Artificial Intelligence and includes models like logistic regression and decision trees.
@@ -851,8 +917,6 @@ logistic regression. Here's the basic idea:
 
 8. We repeat this process many times, each time slightly adjusting our model's parameters to make it a little bit better.
 
-9. Over time, these small adjustments add up, and our model becomes more and more accurate.
-
 The formulas in the image show exactly how we update our weights and bias:
 - For weights: we add α(y - ŷ)xi to each weight
 - For bias: we add α(y - ŷ)
@@ -896,7 +960,6 @@ In order to calculate the derivative of this error with respect to the weights, 
 
 ∂ŷ/∂wj = ∂/∂wj σ(Wx + b)
         = σ(Wx + b)(1 - σ(Wx + b)) · ∂/∂wj (Wx + b)
-        = ŷ(1 - ŷ) · ∂/∂wj (Wx + b)
         = ŷ(1 - ŷ) · ∂/∂wj (w1x1 + ... + wjxj + ... + wnxn + b)
         = ŷ(1 - ŷ) · xj.
 
@@ -905,7 +968,6 @@ Now, we can go ahead and calculate the derivative of the error E at a point x, w
 ∂E/∂wj = ∂/∂wj [-y log(ŷ) - (1 - y) log(1 - ŷ)]
         = -y ∂/∂wj log(ŷ) - (1 - y) ∂/∂wj log(1 - ŷ)
         = -y · 1/ŷ · ∂ŷ/∂wj - (1 - y) · 1/(1 - ŷ) · ∂/∂wj (1 - ŷ)
-        = -y · 1/ŷ · ŷ(1 - ŷ)xj - (1 - y) · 1/(1 - ŷ) · (-1)ŷ(1 - ŷ)xj
         = -y(1 - ŷ)xj + (1 - y)ŷxj
         = -(y - ŷ)xj.
 
@@ -1075,7 +1137,7 @@ Limitations:
 - Credit risk assessment
 - Marketing campaign response prediction
 
----
+
 
 ## Calculating the Error Function
 
@@ -1224,10 +1286,7 @@ Where:
       - Update weight step: Δwi = Δwi + δxi
    c. Update weights: wi = wi + η Δwi / m
 
-Where:
-- η is the learning rate
-- f is the activation function (sigmoid in this case)
-- f' is the derivative of the activation function
+Where η is the learning rate.
 
 ## V. Sigmoid Function and Its Derivative
 
@@ -1544,15 +1603,16 @@ Network structure:
    δₒ = (y - ŷ) f'(W·a) = (1 - 0.512) × 0.512 × (1 - 0.512) = 0.122
 
    Hidden unit error term:
-   δʰ = W δₒ f'(h) = 0.1 × 0.122 × 0.495 × (1 - 0.495) = 0.003
+   δʰʰ = δₒWⱼf'(hⱼ)
+        = 0.1 × 0.122 × 0.495 × (1 - 0.495) = 0.003
 
 3. Weight Updates:
 
    Hidden to output weight:
-   ΔW = η δₒ a = 0.5 × 0.122 × 0.495 = 0.0302
+   ΔW = ηδₒa = 0.5 × 0.122 × 0.495 = 0.0302
 
    Input to hidden weights:
-   Δwᵢ = η δʰ xᵢ = (0.5 × 0.003 × 0.1, 0.5 × 0.003 × 0.3) = (0.00015, 0.00045)
+   Δwᵢ = ηδʰʰaᵢ = (0.5 × 0.003 × 0.1, 0.5 × 0.003 × 0.3) = (0.00015, 0.00045)
 
 ## V. Implementation in NumPy
 
@@ -1699,6 +1759,7 @@ Neural networks can have different architectures, with varying numbers of nodes 
 
    3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, 
    which then combine to create even more nonlinear models!
+
 
       
 The softmax mentioned in the video is the activation function used by multiclass classification, which we will cover shortly 
@@ -2183,9 +2244,12 @@ Neural Networks Layers:
 
 Neural Network Nodes:
 
-   1. Input nodes. In general, if we have n nodes in the input layer, then we are modeling data in n-dimensional space (e.g., 3 nodes in the input layer means we are modeling data in 3-dimensional space).
-   2. Output nodes. If there are more nodes in the output layer, this simply means we have more outputs—for example, we may have a multiclass classification model.
-   3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, which then combine to create even more nonlinear models!
+   1. Input nodes. In general, if we have n nodes in the input layer, then we are modeling data in n-dimensional space (e.g., 
+   3 nodes in the input layer means we are modeling data in 3-dimensional space).
+   2. Output nodes. If there are more nodes in the output layer, this simply means we have more outputs—for example, we may 
+   have a multiclass classification model.
+   3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, 
+   which then combine to create even more nonlinear models!
 
 
 Feedforward is the process neural networks use to turn the input into an output.
@@ -2864,3 +2928,5 @@ than to take only one good one.
 10. Stochastic gradient descent: The process of taking small subsets of the data and running them through the neural network, 
    calculating the gradient of the error function based on these points, and moving one step in that direction.
 
+
+```
