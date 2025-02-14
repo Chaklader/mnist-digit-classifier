@@ -2302,102 +2302,113 @@ Solutions include using ReLU activations, proper weight initialization technique
 
 Vanishing and exploding gradients are common problems in training deep neural networks, particularly those with many layers. These issues can significantly impede the learning process and affect the network's performance.
 
-## II. Gradient Flow in Neural Networks
+
+### Gradients and Activation Functions
+
+Both vanishing and exploding gradients are more common in deeper networks. However, the phenomena of vanishing and exploding gradients differ in one major way: they are caused by different properties of activation functions used in the hidden layers. So-called "saturating" activation functions -- those that have a bounded range, can cause vanishing gradients. Meanwhile, unbounded activation functions can cause exploding gradients.
+
+
+<br>
+<img src="images/activation-functions.png" alt="Board" width=600 height=auto>
+<br>
+
+### Learning Rate Decay
+
+Here are some key ideas to keep in mind when choosing a learning rate:
+
+If the learning rate is large:
+
+- This means the algorithm is taking large steps, which can make it faster.
+- However, the large steps may cause it to miss (overshoot) the minimum.
+
+If the learning learning rate is small:
+
+- This means the algorithm is taking small steps, which can make it slower.
+- However, it will make steady progress and have a better chance of arriving at the local minimum.
+- If your model is not working, a good general rule of thumb is to try decreasing the learning rate. The best learning rates are those that decrease as the algorithm is getting closer to a solution.
+
+
+## Gradient Flow in Neural Networks
 
 - During backpropagation, gradients are computed from the output layer back to the input layer.
 - These gradients are used to update the weights of the network.
 
-## III. Vanishing Gradients
+## Vanishing Gradients
 
-### A. Definition
+### Definition
 Vanishing gradients occur when the gradients become extremely small as they are backpropagated through the network.
 
-### B. Causes
+### Causes
 1. Deep networks with many layers
 2. Use of certain activation functions (e.g., sigmoid, tanh) in deep networks
 3. Poor weight initialization
 
-### C. Effects
+### Effects
+
 1. Slow learning in early layers of the network
 2. Difficulty in capturing long-range dependencies in sequence data
 3. Model may fail to converge
 
 ## IV. Exploding Gradients
 
-### A. Definition
+### Definition
+
 Exploding gradients occur when the gradients become extremely large during backpropagation.
 
-### B. Causes
+
+### Causes
 1. Deep networks with many layers
 2. Poor weight initialization
 3. High learning rates
 
-### C. Effects
+
+### Effects
+
 1. Unstable training process
 2. Model weights may become too large, leading to poor performance
 3. Numerical overflow, causing training to fail
 
-## V. Detection
+## Detection
 
 - Vanishing Gradients: Weights barely changing during training
 - Exploding Gradients: Model weights becoming very large or reaching NaN values
 
-## VI. Solutions and Mitigation Strategies
+<br>
 
-### A. For Both Issues
+## Solutions and Mitigation Strategies
+
+### For Both Issues
 1. Proper weight initialization (e.g., Xavier/Glorot initialization)
 2. Using shorter network architectures when possible
 3. Batch normalization
 
-### B. For Vanishing Gradients
+
+### For Vanishing Gradients
 1. Using ReLU activation functions
 2. Residual connections (as in ResNet architectures)
 3. LSTM or GRU units for recurrent neural networks
 
-### C. For Exploding Gradients
+
+### For Exploding Gradients
+
 1. Gradient clipping
 2. Reducing the learning rate
 3. L1 or L2 regularization
 
-## VII. Advanced Architectures Addressing These Issues
+
+## Advanced Architectures Addressing These Issues
 
 1. ResNet: Uses skip connections to allow gradients to flow more easily
 2. LSTM/GRU: Designed to better handle long-term dependencies in sequence data
 3. Transformer: Uses self-attention mechanisms, avoiding recurrent structures prone to gradient issues
 
 
-## VIII. Conclusion
-
-Understanding and addressing vanishing and exploding gradients is crucial for effectively training deep neural networks. 
-By employing appropriate techniques and architectures, these issues can be mitigated, leading to more stable and efficient 
-training of deep models.
-
-
-
-Choosing Learning Rates
-Here are some key ideas to keep in mind when choosing a learning rate:
-
-
-Large Learning Rate
-
-1. This means the algorithm is taking large steps, which can make it faster.
-2. However, the large steps may cause it to miss (overshoot) the minimum.
-
-
-Small Learning Rate
-
-1. This means the algorithm is taking small steps, which can make it slower.
-2. However, it will make steady progress and have a better chance of arriving at the local minimum.
-
-
-If your model is not working, a good general rule of thumb is to try decreasing the learning rate. The best learning rates 
-are those that decrease as the algorithm is getting closer to a solution.
+Understanding and addressing vanishing and exploding gradients is crucial for effectively training deep neural networks. By employing appropriate techniques and architectures, these issues can be mitigated, leading to more stable and efficient training of deep models.
 
 
 ## Momentum in Gradient Descent
 
-Momentum is a technique used to improve the performance of gradient descent optimization, particularly in dealing with local 
-minima. It introduces a constant β (beta) between 0 and 1 to create a weighted average of previous steps.
+Momentum is a technique used to improve the performance of gradient descent optimization, particularly in dealing with local minima. It introduces a constant β (beta) between 0 and 1 to create a weighted average of previous steps.
 
 The momentum update is calculated as:
 
@@ -2413,6 +2424,19 @@ As β is between 0 and 1, raising it to higher powers results in smaller values.
 less influence than recent ones.
 
 
+## Pushing Past Local Minima
+
+Another way to solve the local minimum problem is with momentum. Momentum is a constant β between 0 and 1.
+
+We use β to get a sort of weighted average of the previous steps:
+
+step(n) + βstep(n-1) + β²step(n-2) + β³step(n-3) + ...
+
+The previous step gets multiplied by 1, the one before it gets multiplied by β, the one before that by β², the one before that by β³, and so on. Because β has a value between 0 and 1, raising it to increasingly large powers means that the value will get smaller and smaller. In this way, the steps that happened a long time ago will be multiplied by tiny values and thus matter less than the ones that happened recently.
+
+This can get us over "humps" and help us discover better minima. Once we get to the global minimum, the momentum will still be pushing us away, but not as much.
+
+
 The previous step gets multiplied by 1, the one before it gets multiplied by β, the one before that by β², the one before 
 that by β³, and so on. Because β has a value between 0 and 1, raising it to increasingly large powers means that the value 
 will get smaller and smaller. In this way, the steps that happened a long time ago will be multiplied by tiny values and 
@@ -2423,6 +2447,7 @@ be pushing us away, but not as much.
 
 
 Momentum helps in several ways:
+
 1. It can push the optimization process over "humps" in the error surface.
 2. It aids in discovering better minima by allowing the process to escape shallow local minima.
 3. It can accelerate progress along consistent directions in the parameter space.
@@ -2439,24 +2464,91 @@ optimization might overshoot minima or oscillate. Typical values for β range fr
 choice in practice.
 
 
+
+## Optimizers
+
+Optimizers in neural networks are algorithms that adjust the network's weights and biases to minimize the loss function. Optimizers are algorithms or methods used to change the neural network parameters (weights and biases) to reduce the loss function. Think of them like different strategies for walking downhill in the dark - gradient descent takes careful steps directly downward, momentum is like rolling a ball that can get past small bumps, Adam is like a smart hiker who learns from experience and adjusts their step size, and RMSprop adapts its pace based on how steep each part of the path is. The choice of optimizer can significantly affect how quickly and effectively a neural network learns from data. Here are the key optimizers:
+
+1. Gradient Descent:
+- The most basic optimizer
+- Updates weights based on the gradient of the error
+- Learning rate determines step size
+- Can be slow and get stuck in local minima
+
+2. Stochastic Gradient Descent (SGD):
+- Updates weights using one sample at a time
+- Faster but noisier than standard gradient descent
+- Better at escaping local minima
+- Often used with momentum
+
+3. Adam (Adaptive Moment Estimation):
+- Combines benefits of other optimizers
+- Adapts learning rate for each parameter
+- Uses estimates of first and second moments of gradients
+- Generally performs well across many problems
+- Popular default choice for deep learning
+
+4. RMSprop:
+- Maintains per-parameter learning rates
+- Adapts rates based on recent gradient history
+- Good for non-stationary objectives
+- Works well with recurrent neural networks
+
+5. Momentum:
+- Helps accelerate gradients in right direction
+- Reduces oscillations in wrong directions
+- Helps escape local minima
+- Uses weighted average of past gradients
+
+Key Considerations:
+- Choice of optimizer affects training speed and final model performance
+- Different optimizers work better for different problems
+- Learning rate tuning is usually necessary
+- Modern practice often defaults to Adam with learning rate scheduling
+
+
+<br>
+<br>
+
 ## Batch vs Stochastic Gradient Descent
 
-Gradient descent is a fundamental optimization algorithm in machine learning, particularly for training neural networks. 
-There are two main variants: Batch Gradient Descent and Stochastic Gradient Descent.
+Gradient descent is a fundamental optimization algorithm in machine learning, particularly for training neural networks. There are two main variants: **Batch Gradient Descent** and **Stochastic Gradient Descent**.
+
 
 ### Batch Gradient Descent
 
-In batch gradient descent, we use the entire dataset for each iteration (epoch):
+First, let's review our batch gradient descent algorithm:
+
+- In order to decrease error, we take a bunch of steps following the negative of the gradient, which is the error function.
+- Each step is called an epoch.
+- In each epoch, we take our input (all of our data) and run it through the entire neural network.
+- Then we find our predictions and calculate the error (how far the predictions are from the actual labels).
+- Finally, we back-propagate this error in order to update the weights in the neural network. This will give us a better 
+- boundary for predicting our data.
+
+If we have a large number of data points then this process will involve huge matrix computations, which would use a lot of memory. In batch gradient descent, we use the entire dataset for each iteration (epoch):
 
 1. Input all data through the neural network.
 2. Calculate predictions and compute the error.
 3. Back-propagate the error to update weights.
 4. Repeat for multiple epochs.
 
-This method provides accurate gradient calculations but can be computationally expensive and memory-intensive for large 
-datasets due to extensive matrix computations.
+This method provides accurate gradient calculations but can be computationally expensive and memory-intensive for large datasets due to extensive matrix computations.
 
-## Stochastic Gradient Descent (SGD)
+
+## Stochastic Gradient Descent 
+
+To expedite this, we can use only some of our data at each step. If the data is well-distributed then a subset of the data can give us enough information about the gradient. This is the idea behind stochastic gradient descent. We take small subsets of the data and run them through the neural network, calculating the gradient of the error function based on these points and moving one step in that direction.
+
+We still want to use all our data, so what we do is the following:
+
+- Split the data into several batches.
+- Take the points in the first batch and run them through the neural network.
+- Calculate the error and its gradient.
+- Back-propagate to update the weights (which will define a better boundary region).
+- Repeat the above steps for the rest of the batches.
+
+Notice that with this approach we take multiple steps, whereas with batch gradient descent we take only one step with all the data. Each step may be less accurate, but, in practice, it's much better to take a bunch of slightly inaccurate steps than to take only one good one.
 
 SGD addresses the computational challenges of batch gradient descent by using subsets of data:
 
@@ -2475,61 +2567,4 @@ approach is often more efficient:
 - It can help escape local minima due to the noise in gradient estimates.
 
 
-The key principle is that well-distributed data subsets can provide sufficient information about the overall gradient direction, 
-allowing for faster and more frequent updates to the model.
-
-In practice, taking multiple slightly inaccurate steps (SGD) often yields better results than taking one highly accurate 
-step (batch gradient descent) per epoch. This makes SGD particularly useful for large datasets and online learning scenarios 
-where data arrives continuously.
-
-## Batch Gradient Descent
-
-First, let's review our batch gradient descent algorithm:
-
-In order to decrease error, we take a bunch of steps following the negative of the gradient, which is the error function.
-Each step is called an epoch.
-In each epoch, we take our input (all of our data) and run it through the entire neural network.
-Then we find our predictions and calculate the error (how far the predictions are from the actual labels).
-Finally, we back-propagate this error in order to update the weights in the neural network. This will give us a better 
-boundary for predicting our data.
-If we have a large number of data points then this process will involve huge matrix computations, which would use a lot of memory.
-
-
-## Stochastic Gradient Descent
-
-To expedite this, we can use only some of our data at each step. If the data is well-distributed then a subset of the data 
-can give us enough information about the gradient.
-
-This is the idea behind stochastic gradient descent. We take small subsets of the data and run them through the neural 
-network, calculating the gradient of the error function based on these points and moving one step in that direction.
-
-We still want to use all our data, so what we do is the following:
-
-Split the data into several batches.
-Take the points in the first batch and run them through the neural network.
-Calculate the error and its gradient.
-Back-propagate to update the weights (which will define a better boundary region).
-Repeat the above steps for the rest of the batches.
-
-Notice that with this approach we take multiple steps, whereas with batch gradient descent we take only one step with all 
-the data. Each step may be less accurate, but, in practice, it's much better to take a bunch of slightly inaccurate steps 
-than to take only one good one.
-
-
-#### References
-
-1. Training Data: Data actually used to fit the model
-2. Validation Data: Data used during training to evaluate generalization
-3. Test Data: Data used to evaluate the final model
-4. Underfitting (also called error due to bias): Underfitting means that our model is too simplistic because of a poor fit 
-   between our model, and the data because we have oversimplified the problem.
-5. Overfitting (also called error due to variance): Overfitting means that our model is too complicated, and the fit between 
-   our model and the training data is too specific—the model will perform very well on the training data but will fail to generalize 
-   to new data.
-6. Early Stopping: Implementing gradient descent until the testing error stops decreasing and starts to increase.
-7. Dropout: The process of turning part of the network off and letting the rest of the network train
-8. Local Minima: solutions where the error is at the lowest point in the local area, but not the lowest point overall.
-9. Momentum: Momentum is a constant β between 0 and 1
-10. Stochastic gradient descent: The process of taking small subsets of the data and running them through the neural network, 
-   calculating the gradient of the error function based on these points, and moving one step in that direction.
-
+The key principle is that well-distributed data subsets can provide sufficient information about the overall gradient direction, allowing for faster and more frequent updates to the model. In practice, taking multiple slightly inaccurate steps (SGD) often yields better results than taking one highly accurate step (batch gradient descent) per epoch. This makes SGD particularly useful for large datasets and online learning scenarios where data arrives continuously.
