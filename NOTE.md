@@ -1456,6 +1456,10 @@ We can combine two linear models to get our non-linear model. Essentially the st
 3. Add the weighted probabilities
 4. Apply the sigmoid function to the result
 
+
+
+## Neural Network Architecture
+
 Neural networks have a certain special architecture with layers:
 
 1. The first layer is called the input layer, which contains the inputs.
@@ -1464,27 +1468,58 @@ Neural networks have a certain special architecture with layers:
 
 Neural networks can have different architectures, with varying numbers of nodes and layers:
 
-1. Input nodes. In general, if we have n nodes in the input layer, then we are modeling data in n-dimensional space (e.g., 
-3 nodes in the input layer means we are modeling data in 3-dimensional space).
+1. Input nodes. In general, if we have n nodes in the input layer, then we are modeling data in n-dimensional space (e.g., 3 nodes in the input layer means we are modeling data in 3-dimensional space).
 
-2. Output nodes. If there are more nodes in the output layer, this simply means we have more outputs—for example, we may 
-have a multiclass classification model.
+2. Output nodes. If there are more nodes in the output layer, this simply means we have more outputs—for example, we may have a multiclass classification model.
 
-3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, 
-which then combine to create even more nonlinear models!
+3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, which then combine to create even more nonlinear models!
 
 
-      
-The softmax mentioned in the video is the activation function used by multiclass classification, which we will cover shortly 
-in this lesson.
+## Multi-Class Classification
 
-When we have three or more classes, we could construct three separate neural networks—one for predicting each class. However, 
-this is not necessary. Instrad, we can add more nodes in the output layer. Each of these nodes will give us the probability that 
-the item belongs to the given class.
+Multi-Class Classification is the task of classifying instances into one of three or more classes. This extends beyond binary classification where we only have two possible outcomes. When we have three or more classes, we could construct three separate neural networks—one for predicting each class. However, this is not necessary. Instead, we can add more nodes in the output layer. Each of these nodes will give us the probability that the item belongs to the given class. Training a neural network essentially means determining what parameters they should have on the edges in order to model our data well. So in order to learn how to train them, we need to look carefully at how they process the input to obtain an output. Here are the key aspects:
 
 
-Training a neural network essentially means determining what parameters they should have on the edges in order to model 
-our data well. So in order to learn how to train them, we need to look carefully at how they process the input to obtain an output.
+Architecture:
+- Output layer has multiple neurons (one per class)
+- Each output neuron represents the probability/score for its respective class
+- Number of output neurons equals number of possible classes
+
+Common Approaches:
+1. One-vs-All (One-vs-Rest):
+   - Train N binary classifiers (N = number of classes)
+   - Each classifier distinguishes one class from all others
+   - Prediction is class with highest confidence score
+
+2. Softmax Classification:
+   - Uses softmax activation in output layer
+   - Converts raw scores to probabilities
+   - All probabilities sum to 1
+   - Most common approach in neural networks
+
+Loss Functions:
+- Cross-entropy loss is typically used
+- Measures difference between predicted probability distribution and actual class
+- For M classes: -∑∑yᵢⱼlog(pᵢⱼ)
+  where yᵢⱼ is 1 for correct class, 0 otherwise
+  and pᵢⱼ is predicted probability
+
+Evaluation Metrics:
+- Accuracy: Overall correct predictions
+- Confusion Matrix: Shows predictions vs actual classes
+- Per-class metrics: Precision, recall for each class
+- F1-score: Combined measure of precision and recall
+
+Multi-class classification is fundamental in many real-world applications like:
+- Image recognition
+- Document classification
+- Speech recognition
+- Medical diagnosis
+- Product categorization
+
+
+<br>
+<br>
 
 
 ## Feedforward in Neural Networks
