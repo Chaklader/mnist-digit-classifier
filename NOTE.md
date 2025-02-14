@@ -1412,21 +1412,51 @@ This algorithm outlines the process of implementing backpropagation for a simple
 
 <br>
 
-Neural Network Architecture
+The perceptron and neural networks are inspired by biological neurons. Though modern "perceptrons" use the Logistic Sigmoid Function or other activation functions, classical perceptrons use a step function.
 
-Combining Models
+Neural Networks are a more general class of models that encapsulates multi-layer perceptrons. Neural Networks are defined by having one or more hidden layers and an output layer that emits a decision -- either a predicted value, a probability, or a vector of probabilities, depending on the task. A Multilayer Perceptron (MLP) is actually a specific type of Neural Network with some particular characteristics:
 
-We will combine two linear models to get our non-linear model. Essentially the steps to do this are:
+1. Architecture:
+- MLPs have a strictly feedforward architecture
+- Neurons are arranged in distinct layers
+- Each layer fully connects to the next layer
+- Information flows only in one direction (forward)
+
+2. Activation:
+- MLPs typically use nonlinear activation functions (like sigmoid, ReLU)
+- The original perceptron used a step function
+
+3. Scope:
+- MLPs are a subset of neural networks
+- Neural networks can include many other architectures like:
+  - Recurrent Neural Networks (RNNs)
+  - Convolutional Neural Networks (CNNs)
+  - Self-Organizing Maps
+  - Hopfield Networks
+  - Networks with feedback connections
+  - Networks with skip connections
+
+4. Training:
+- MLPs are trained using backpropagation and gradient descent
+- Other neural network types might use different training methods
+- Some neural networks can use unsupervised learning
+
+So while all MLPs are neural networks, not all neural networks are MLPs. MLPs represent the classic "vanilla" feedforward neural network architecture, while the broader field of neural networks encompasses many more complex and specialized architectures.
+
+
+
+<br>
+<img src="images/mlp_3.png" width=600 height=auto>
+<br>
+
+We can combine two linear models to get our non-linear model. Essentially the steps to do this are:
 
 1. Calculate the probability for each model
 2. Apply weights to the probabilities
 3. Add the weighted probabilities
 4. Apply the sigmoid function to the result
 
-
-
 Neural networks have a certain special architecture with layers:
-
 
 1. The first layer is called the input layer, which contains the inputs.
 2. The next layer is called the hidden layer, which is the set of linear models created with the input layer.
@@ -1434,14 +1464,14 @@ Neural networks have a certain special architecture with layers:
 
 Neural networks can have different architectures, with varying numbers of nodes and layers:
 
-   1. Input nodes. In general, if we have n n nodes in the input layer, then we are modeling data in n-dimensional space (e.g., 
-   3 nodes in the input layer means we are modeling data in 3-dimensional space).
+1. Input nodes. In general, if we have n nodes in the input layer, then we are modeling data in n-dimensional space (e.g., 
+3 nodes in the input layer means we are modeling data in 3-dimensional space).
 
-   2. Output nodes. If there are more nodes in the output layer, this simply means we have more outputs—for example, we may 
-   have a multiclass classification model.
+2. Output nodes. If there are more nodes in the output layer, this simply means we have more outputs—for example, we may 
+have a multiclass classification model.
 
-   3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, 
-   which then combine to create even more nonlinear models!
+3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, 
+which then combine to create even more nonlinear models!
 
 
       
@@ -1457,10 +1487,7 @@ Training a neural network essentially means determining what parameters they sho
 our data well. So in order to learn how to train them, we need to look carefully at how they process the input to obtain an output.
 
 
-# Feedforward in Neural Networks
-
-
-## Introduction
+## Feedforward in Neural Networks
 
 
 Feedforward is the fundamental process by which neural networks transform input data into output predictions. It's called 
