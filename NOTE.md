@@ -1563,7 +1563,7 @@ The feedforward process allows neural networks to approximate complex functions.
 
 
 
-## Activation Functions in Neural Networks
+## Activation Functions 
 
 
 Activation functions are mathematical operations applied to the output of a neuron in a neural network. They serve several crucial purposes:
@@ -1683,10 +1683,7 @@ These newer functions aim to combine the benefits of traditional activations whi
 Activation functions are essential for enabling neural networks to learn complex, non-linear relationships in data. Understanding their properties and impacts is crucial for designing effective neural network architectures and troubleshooting training issues.
 
 
-## Output Functions in Neural Networks - Softmax
-
-### Introduction to Output Functions
-
+## Output Functions 
 
 Output functions, also known as activation functions for the output layer, determine the final form of a neural network's output. They are crucial for mapping the network's computations to the desired output format, especially in classification tasks.
 
@@ -1740,14 +1737,7 @@ Where:
 3. Not suitable for multi-label classification (where an instance can belong to multiple classes)
 
 
-### Implementation
-
-In practice, Softmax is often combined with cross-entropy loss for training classification models. Many deep learning frameworks 
-provide built-in implementations of Softmax.
-
-### Conclusion
-
-The Softmax function is a powerful tool for multi-class classification problems, providing a way to convert arbitrary real-valued vectors into probability distributions. Its ability to handle multiple classes and provide interpretable outputs makes it a staple in many neural network architectures.
+In practice, Softmax is often combined with cross-entropy loss for training classification models. Many deep learning frameworks provide built-in implementations of Softmax. The Softmax function is a powerful tool for multi-class classification problems, providing a way to convert arbitrary real-valued vectors into probability distributions. Its ability to handle multiple classes and provide interpretable outputs makes it a staple in many neural network architectures.
 
 
 
@@ -1761,7 +1751,6 @@ The Softmax function is a powerful tool for multi-class classification problems,
 
 This table outlines the characteristics of three common machine learning problem types: Binary Classification, Multiclass 
 Classification, and Regression, including their target types, outputs, activation functions, and loss functions.
-
 
 
 For regression problems, Mean Absolute Error (MAE) and Mean Squared Error (MSE) are appropriate error functions.
@@ -1797,8 +1786,6 @@ The choice between MAE and MSE often depends on the specific requirements of you
 
 Both provide valuable insights into your model's performance in regression tasks.
 
-
-
 | Output activation | Loss function |
 |-------------------|---------------|
 | Sigmoid | Binary Cross Entropy |
@@ -1823,135 +1810,28 @@ Explanation of the matches:
    with continuous outputs.
 
 
-These pairings are standard in machine learning because they match the nature of the output (binary, multiclass, or continuous) 
-with an appropriate way to measure prediction error. The activation functions shape the output, while the loss functions provide 4
-a way to quantify how far off the predictions are from the true values in a way that's mathematically compatible with the output format.
+### Typical use cases for each activation function
 
-
-
-| Model | Activation Function |
-|-------|---------------------|
-| Speed prediction | ReLU |
-| Road hazard detection | Sigmoid |
-| Road sign classification | Softmax |
-
-
-Based on the scenario and the question presented in the image, here are the appropriate output functions (activation functions) for each model:
-
-1. Speed prediction: ReLU
-   - Speed is a continuous, non-negative value, making ReLU suitable as it outputs positive values.
-
-2. Road hazard detection: Sigmoid
-   - This is likely a binary classification problem (hazard present or not), for which sigmoid is appropriate as it outputs values between 0 and 1, interpretable as probabilities.
-
-3. Road sign classification: Softmax
-   - This is a multi-class classification problem (multiple types of road signs), for which softmax is ideal as it outputs a probability distribution over multiple classes.
-
-These choices align with the typical use cases for each activation function:
 - ReLU for regression tasks with non-negative outputs
 - Sigmoid for binary classification
 - Softmax for multi-class classification
 
 
-Answers:
-1. Change the size of the output layer
-2. Add an activation function to the output layer
-
-Explanation:
-
-1. Change the size of the output layer:
-   We modified the last fully connected layer (fc3) to output a single value instead of 10:
-
-   ```textmate
-   self.fc3 = nn.Linear(84, 1)
-   ```
-   
-   This change is necessary because road hazard detection is a binary classification problem (hazard present or not), so we only need one output neuron.
-
-2. Add an activation function to the output layer:
-   We added a sigmoid activation function to the output of the last layer:
-
-   ```textmate
-   x = torch.sigmoid(self.fc3(x))
-   ```
-   
-
-The sigmoid function is appropriate for binary classification as it squashes the output to a range between 0 and 1, which can be interpreted as the probability of a road hazard being present.
-
-These modifications are necessary to adapt the LeNet-5 model, originally designed for multi-class classification, to a binary 
-classification task (road hazard detection). The output size change ensures we get a single value, and the sigmoid activation 
-ensures this value is between 0 and 1, suitable for binary classification and compatible with the Binary Cross Entropy Loss 
-(nn.BCELoss) mentioned in the question.
-
-We didn't need to add more hidden layers or change the Linear layers to Conv2d layers, as the existing architecture is already 
-capable of learning features for binary classification tasks.
+## Neural Network Objectives
 
 
-
-Question 3 of 4:
-What major risk is associated with the "flow of traffic" speed prediction system?
-
-Answer: The output is unbounded, so it may predict an extremely high speed
-
-Question 4 of 4:
-Consider the road sign classification system. Only a small number of signs are immediately actionable to an autonomous 
-vehicle: speed limit, stop sign, yield sign, etc. Many others are purely informational, and some are extremely rare. 
-Additionally, signs change from country to country, so each region will need its own model.
-
-How should we deal with this problem?
-
-Answer: Identify the most important road signs and have an "unknown" class.
-
-Explanation:
-
-Question 3:
-
-The selected answer highlights a crucial risk in using unbounded output for speed prediction. Without proper constraints, 
-the model could potentially predict unrealistically high speeds, which could be dangerous if acted upon by an autonomous 
-vehicle. This underscores the importance of either constraining the model's output range or implementing post-processing 
-steps to ensure predictions remain within reasonable limits.
-
-Question 4:
-The chosen solution addresses several key challenges in road sign classification:
-
-1. Prioritization: By focusing on the most important signs (those actionable by an autonomous vehicle), the system concentrates 
-on the most critical information for safe driving.
-
-2. Handling Diversity: The "unknown" class allows the system to deal with rare, informational, or region-specific signs 
-without needing to explicitly classify every possible sign.
-
-3. Scalability: This approach makes it easier to adapt the system to different countries or regions, as only the most 
-crucial signs need to be specifically identified for each area.
-
-4. Safety: By clearly distinguishing between known, important signs and unknown signs, the system can make more informed 
-decisions about when to rely on sign information and when to potentially seek additional input or take conservative action.
-
-This solution balances the need for accurate classification of critical signs with the practical limitations of trying 
-to classify every possible sign in every region.
+| Binary Classification | Multiclass Classification | Regression |
+|----------------------|--------------------------|------------|
+| Target is 0 or 1 | Vector of targets {0, 1} | Target is a numerical value |
+| Output probability of label | Output probability vector | Output predicted value |
+| Sigmoid activation | Softmax activation | Identity activation |
+| Binary Cross Entropy | Multi-class Cross Entropy | Mean Squared Error |
 
 
+### Nonlinear and High Dimensional Decision Boundaries
 
-For your reference, here are all the new terms we introduced in this lesson:
+Our data will dictate what the shape of our decision boundary should be. Neural networks will be able to find decision boundaries that are high-dimensional and nonlinear by combining the decision boundaries of the hidden neurons. Even in cases where we cannot visualize our decision boundary easily, knowing the approximate complexity of our decision boundary will inform how big our model needs to be.
 
-Neural Networks are defined by having one or more hidden layers and an output layer that emits a decision -- either a predicted value, a probability, or a vector of probabilities, depending on the task.
-
-Neural Networks Layers:
-
-1. The first layer is called the input layer, which contains the inputs.
-2. The next layer is called the hidden layer, which is the set of linear models created with the input layer.
-3. The final layer is called the output layer, which is where the linear models get combined to obtain a nonlinear model.
-
-Neural Network Nodes:
-
-   1. Input nodes. In general, if we have n nodes in the input layer, then we are modeling data in n-dimensional space (e.g., 
-   3 nodes in the input layer means we are modeling data in 3-dimensional space).
-   2. Output nodes. If there are more nodes in the output layer, this simply means we have more outputs—for example, we may 
-   have a multiclass classification model.
-   3. Layers. If there are more layers then we have a deep neural network. Our linear models combine to create nonlinear models, 
-   which then combine to create even more nonlinear models!
-
-
-Feedforward is the process neural networks use to turn the input into an output.
 
 
 <br>
