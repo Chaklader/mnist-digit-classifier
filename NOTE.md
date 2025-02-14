@@ -943,20 +943,20 @@ descent and its variants, we can find the optimal parameters that best fit our t
 
 
 
-# Implementing Gradient Descent
+## Implementing Gradient Descent
 
-## I. Introduction
+## Introduction
 
 Gradient descent is a fundamental optimization algorithm used to minimize the error function in machine learning models, including neural networks. This lecture focuses on implementing gradient descent for a simple neural network using the graduate school admissions dataset.
 
-## II. Data Preprocessing
+## Data Preprocessing
 
 Before implementing gradient descent, it's crucial to preprocess the data:
 
 1. Convert categorical variables (like rank) into dummy variables.
 2. Standardize continuous variables (GRE and GPA) to have zero mean and unit standard deviation.
 
-## III. Error Function
+## Error Function
 
 We use the Mean Squared Error (MSE) instead of Sum of Squared Errors (SSE):
 
@@ -967,7 +967,7 @@ Where:
 - y is the true label
 - ŷ is the predicted output
 
-## IV. Gradient Descent Algorithm
+## Gradient Descent Algorithm
 
 1. Initialize weights
 2. For each epoch:
@@ -980,33 +980,13 @@ Where:
 
 Where η is the learning rate.
 
-## V. Sigmoid Function and Its Derivative
+## Sigmoid Function and Its Derivative
 
 Sigmoid function: f(h) = 1 / (1 + e^(-h))
 Derivative: f'(h) = f(h)(1 - f(h))
 
-## VI. Implementation in Python
 
-Here's the Python implementation of the gradient descent algorithm:
-
-
-
-```textmate
-def update_weights(weights, features, targets, learnrate):
-    del_w = np.zeros(weights.shape)
-    for x, y in zip(features.values, targets):
-        output = sigmoid(np.dot(x, weights))
-        error = y - output
-        error_term = error * output * (1 - output)
-        del_w += error_term * x
-    
-    n_records = features.shape[0]
-    weights += learnrate * del_w / n_records
-    
-    return weights
-```
-
-## VII. Key Points
+## Key Points
 
 1. Initialize weights randomly from a normal distribution with scale 1/sqrt(n_features).
 2. Use np.dot() for efficient computation of the dot product.
@@ -1014,36 +994,67 @@ def update_weights(weights, features, targets, learnrate):
 4. Adjust the learning rate to balance between convergence speed and accuracy.
 
 
-## VIII. Conclusion
-
 Implementing gradient descent involves careful data preprocessing, understanding of the error function and its derivatives, 
 and efficient computation using libraries like NumPy. This implementation forms the basis for training more complex neural 
 networks and can be extended to other optimization problems in machine learning.
 
 
-
-
-# Perceptrons
-
 <br>
-
-![Alt text](images/perceptrons.png)
-
 <br>
 
 
-## I. Definition of a Perceptron
+## Mean Square Error
 
-A Perceptron is a fundamental building block of neural networks, representing the simplest form of an artificial neuron. 
-It takes multiple inputs, processes them, and produces a binary output.
+We're going to make a small change to how we calculate the error here. Instead of the SSE, we're going to use the mean of the square errors (MSE). Now that we're using a lot of data, summing up all the weight steps can lead to really large updates that make the gradient descent diverge. To compensate for this, you'd need to use a quite small learning rate. Instead, we can just divide by the number of records in our data, m to take the average. This way, no matter how much data we use, our learning rates will typically be in the range of 0.01 to 0.001. Then, we can use the MSE (shown below) to calculate the gradient and the result is the same as before, just averaged instead of summed.
 
-## II. Structure of a Perceptron
+E = 1/(2m) ∑(y^μ - ŷ^μ)²
+
+Here's the general algorithm for updating the weights with gradient descent:
+
+* Set the weight step to zero: Δw_i = 0
+* For each record in the training data:
+  * Make a forward pass through the network, calculating the output ŷ = f(∑_i w_ix_i)
+  * Calculate the error term for the output unit, δ = (y - ŷ) * f'(∑_i w_ix_i)
+  * Update the weight step Δw_i = Δw_i + δx_i
+* Update the weights w_i = w_i + ηΔw_i/m where η is the learning rate and m is the number of records. Here we're averaging the weight steps to help reduce any large variations in the training data.
+* Repeat for e epochs.
+
+You can also update the weights on each record instead of averaging the weight steps after going through all the records.
+
+Remember that we're using the sigmoid for the activation function,
+
+f(h) = 1/(1 + e^(-h))
+
+And the gradient of the sigmoid is
+
+f'(h) = f(h)(1 - f(h))
+
+where h is the input to the output unit,
+
+h = ∑_i w_ix_i
+
+
+<br>
+<br>
+
+
+## Perceptrons
+
+
+A Perceptron is a fundamental building block of neural networks, representing the simplest form of an artificial neuron. It takes multiple inputs, processes them, and produces a binary output.
+
+<br>
+<img src="images/perceptrons.png" width=600 height=auto>
+<br>
+
+
+## Structure of a Perceptron
 
 1. Inputs: The Perceptron receives n inputs, denoted as x₁, x₂, ..., xₙ.
 2. Weights: Each input is associated with a weight (W₁, W₂, ..., Wₙ).
 3. Bias: An additional input with a constant value of 1 and its associated weight b.
 
-## III. Computation in a Perceptron
+## Computation in a Perceptron
 
 The Perceptron performs two main steps:
 
@@ -1058,28 +1069,29 @@ The result is then passed through an activation function. In the simplest case, 
    - If Wx + b ≥ 0, the output is "Yes" (or 1)
    - If Wx + b < 0, the output is "No" (or 0)
 
-## IV. Decision Making
+## Decision Making
 
 - The Perceptron essentially defines a decision boundary in the input space.
 - This boundary is a hyperplane defined by the equation Wx + b = 0.
 - Inputs on one side of this hyperplane are classified as "Yes", and on the other side as "No".
 
-## V. Learning Process
+## Learning Process
 
 - The weights and bias of a Perceptron can be adjusted through a learning process.
 - This typically involves presenting the Perceptron with labeled training data and adjusting the weights based on the errors it makes.
 
-## VI. Limitations
+## Limitations
 
 - Perceptrons can only learn linearly separable functions.
 - For more complex problems, multiple Perceptrons need to be combined into multi-layer networks.
 
-## VII. Historical Significance
+
+## Historical Significance
 
 - Introduced by Frank Rosenblatt in 1958, Perceptrons were among the first machine learning algorithms.
 - They laid the groundwork for more complex neural network architectures.
 
-## VIII. Applications
+## Applications
 
 - Binary classification tasks
 - As building blocks in more complex neural networks
@@ -1089,17 +1101,16 @@ Understanding Perceptrons is crucial as they form the basis for understanding mo
 and deep learning models.
 
 
+<br>
+<br>
 
 
-# Multilayer Perceptrons (MLPs)
+## Multilayer Perceptrons (MLPs)
 
 
-## I. Introduction
+Multilayer Perceptrons (MLPs) are neural networks with one or more hidden layers between the input and output layers. They can solve linearly inseparable problems, unlike single-layer perceptrons.
 
-Multilayer Perceptrons (MLPs) are neural networks with one or more hidden layers between the input and output layers. They 
-can solve linearly inseparable problems, unlike single-layer perceptrons.
-
-## II. Structure of an MLP
+## Structure of an MLP
 - Input layer
 - One or more hidden layers
 - Output layer
@@ -1107,7 +1118,7 @@ can solve linearly inseparable problems, unlike single-layer perceptrons.
 Example: A network with three input units, two hidden units, and one output unit.
 
 
-## III. Calculation Process
+## Calculation Process
 
 1. Input to hidden layer: Weighted sum of inputs plus bias
 2. Hidden layer activation: Apply activation function (e.g., sigmoid)
@@ -1115,19 +1126,20 @@ Example: A network with three input units, two hidden units, and one output unit
 4. Output layer activation: Apply activation function to get final output
 
 
-## IV. Weight Notation
+## Weight Notation
+
 For multiple layers, weights require two indices: wᵢⱼ
 - i: input unit index
 - j: hidden unit index
 
-## V. Weight Matrix
+## Weight Matrix
 For a network with 3 input units and 2 hidden units:
 
 [w₁₁ w₁₂]
 [w₂₁ w₂₂]
 [w₃₁ w₃₂]
 
-## VI. Hidden Layer Calculation
+## Hidden Layer Calculation
 For each hidden unit hⱼ:
 
 hⱼ = ∑ᵢ wᵢⱼxᵢ
@@ -1136,27 +1148,15 @@ Using matrix multiplication:
 
 hidden_inputs = np.dot(inputs, weights_input_to_hidden)
 
-## VII. Implementation in NumPy
 
-```textmate
-# Initialize weights
-n_records, n_inputs = features.shape
-n_hidden = 2
-weights_input_to_hidden = np.random.normal(0, n_inputs**-0.5, size=(n_inputs, n_hidden))
-
-# Calculate hidden layer inputs
-hidden_inputs = np.dot(inputs, weights_input_to_hidden)
-```
-
-## VIII. Forward Pass Implementation
+## Forward Pass Implementation
 
 The forward pass in a perceptron, or more generally in a neural network, is the process of propagating input data through 
 the network to generate an output. Let me explain this process step-by-step for a multilayer perceptron:
 
 Input Layer:
 
-The process starts with the input data being fed into the input layer.
-
+The process starts with the input data being fed into the input layer. 
 
 Hidden Layer(s):
 
@@ -1184,37 +1184,19 @@ b. Apply the activation function:
 output_k = f(y_k)
 
 
-Final Output:
-
-The activations of the output layer neurons are the final output of the network.
-
-```textmate
-def forward_pass(x, weights_input_to_hidden, weights_hidden_to_output):
-    # Calculate input to hidden layer
-    hidden_layer_in = np.dot(x, weights_input_to_hidden)
-    
-    # Calculate hidden layer output
-    hidden_layer_out = sigmoid(hidden_layer_in)
-    
-    # Calculate input to output layer
-    output_layer_in = np.dot(hidden_layer_out, weights_hidden_to_output)
-    
-    # Calculate network output
-    output_layer_out = sigmoid(output_layer_in)
-    
-    return hidden_layer_out, output_layer_out
-```
-
-## IX. Key Points
+## Key Points
 - MLPs can learn more complex patterns with deep stacks of hidden layers.
 - Matrix multiplication is crucial for efficient computation in MLPs.
 - The dimensions of weight matrices must match the number of units in connected layers.
 - Activation functions (e.g., sigmoid) introduce non-linearity, allowing MLPs to solve complex problems.
 
 
+<br>
+<br>
 
-# Backpropagation in Neural Networks
+## Backpropagation in Neural Networks
 
+<br>
 
 Backpropagation is a fundamental algorithm used to train artificial neural networks, especially those with multiple layers. 
 Here's a brief explanation:
@@ -1239,21 +1221,12 @@ In essence, backpropagation is the "learning" mechanism that allows neural netwo
 to better fit the training data.
 
 
-## I. Introduction
-
-Backpropagation is a fundamental algorithm for training multilayer neural networks. It extends the concept of gradient 
-descent to hidden layers, allowing the network to learn complex patterns.
-
-## II. The Concept of Backpropagation
-
-In a multilayer network, we need to calculate the error for hidden layer units to update their weights. Backpropagation 
+Backpropagation is a fundamental algorithm for training multilayer neural networks. It extends the concept of gradient descent to hidden layers, allowing the network to learn complex patterns.In a multilayer network, we need to calculate the error for hidden layer units to update their weights. Backpropagation 
 solves this by propagating the error backwards through the network.
 
-The error in a hidden unit is proportional to the sum of the errors in the output units to which it is connected, weighted 
-by the strength of those connections. This aligns with the intuition that units more strongly connected to the output contribute 
-more to the final error.
+The error in a hidden unit is proportional to the sum of the errors in the output units to which it is connected, weighted by the strength of those connections. This aligns with the intuition that units more strongly connected to the output contribute more to the final error.
 
-## III. Mathematical Formulation
+## Mathematical Formulation
 
 For a hidden unit j, the error term δⱼʰ is calculated as:
 
@@ -1272,7 +1245,7 @@ Where:
 - η is the learning rate
 - xᵢ is the input to the layer
 
-## IV. Detailed Example
+## Detailed Example
 
 Let's walk through a simple two-layer network with:
 - Two input values
@@ -1281,7 +1254,6 @@ Let's walk through a simple two-layer network with:
 - Sigmoid activation functions
 
 Network structure:
-[Image of the network structure would be here]
 
 1. Forward Pass:
 
@@ -1306,32 +1278,7 @@ Network structure:
    Input to hidden weights:
    Δwᵢ = ηδʰʰaᵢ = (0.5 × 0.003 × 0.1, 0.5 × 0.003 × 0.3) = (0.00015, 0.00045)
 
-## V. Implementation in NumPy
-
-When implementing backpropagation with NumPy, we need to handle matrix operations efficiently:
-
-```textmate
-def backward_pass(x, target, learnrate, hidden_layer_out, output_layer_out, weights_hidden_to_output):
-    # Calculate output error
-    error = target - output_layer_out
-
-    # Calculate error term for output layer
-    output_error_term = error * output_layer_out * (1 - output_layer_out)
-
-    # Calculate error term for hidden layer
-    hidden_error_term = output_error_term * weights_hidden_to_output * \
-                        hidden_layer_out * (1 - hidden_layer_out)
-
-    # Calculate change in weights for hidden layer to output layer
-    delta_w_h_o = learnrate * output_error_term * hidden_layer_out
-
-    # Calculate change in weights for input layer to hidden layer
-    delta_w_i_h = learnrate * hidden_error_term * x[:, None]
-
-    return delta_w_h_o, delta_w_i_h
-```
-
-## VI. Key Considerations
+## Key Considerations
 
 1. Vanishing Gradient Problem: The sigmoid function's maximum derivative is 0.25, which can lead to very small weight updates 
 in deep networks.
@@ -1340,14 +1287,15 @@ in deep networks.
 
 3. Error Propagation: The error is scaled by the weights as it propagates backwards, reflecting each unit's contribution to the final output.
 
-## VII. Conclusion
+
+## Conclusion
 
 Backpropagation is a powerful algorithm that enables the training of multilayer neural networks. By efficiently computing 
 gradients for all layers, it allows networks to learn complex, non-linear mappings from inputs to outputs. Understanding 
 backpropagation is crucial for implementing, optimizing, and debugging neural networks.
 
 
-# Implementing Backpropagation
+## Implementing Backpropagation
 
 Now we've seen that the error term for the output layer is:
 
@@ -1377,9 +1325,12 @@ For now we'll only consider a simple network with one hidden layer and one outpu
 
 4. Repeat for e epochs.
 
-This algorithm outlines the process of implementing backpropagation for a simple neural network with one hidden layer and 
-one output unit.
+This algorithm outlines the process of implementing backpropagation for a simple neural network with one hidden layer and one output unit.
 
+
+
+<br>
+<br>
 
 # C-5: Training Neural Networks
 
