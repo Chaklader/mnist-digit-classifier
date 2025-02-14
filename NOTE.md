@@ -587,7 +587,7 @@ The negative sign in both formulas ensures that minimizing cross-entropy brings 
 
 
 
-# Gradient Calculation
+## Gradient Calculation
 
 
 Gradient descent is a fundamental optimization algorithm used in machine learning, particularly for training models like 
@@ -771,14 +771,14 @@ scalar represents the difference between the true label and the prediction, high
 
 Logistic regression is a fundamental machine learning algorithm used for binary classification problems. Despite its name, it's a classification algorithm, not a regression algorithm.
 
-## II. The Logistic Function
+## The Logistic Function
 At the core of logistic regression is the logistic function (also called sigmoid function):
 
 σ(z) = 1 / (1 + e^(-z))
 
 This function maps any real-valued number to a value between 0 and 1, which can be interpreted as a probability.
 
-## III. Model Representation
+## Model Representation
 In logistic regression, we model the probability that an input X belongs to the positive class:
 
 P(Y=1|X) = σ(WᵀX + b)
@@ -788,10 +788,10 @@ Where:
 - X is the input feature vector
 - b is the bias term
 
-## IV. Decision Boundary
+## Decision Boundary
 The decision boundary is the point where the model predicts a 0.5 probability. This occurs when WᵀX + b = 0.
 
-## V. Cost Function
+## Cost Function
 We use the log loss (also called cross-entropy loss) as our cost function:
 
 J(W,b) = -1/m ∑[y·log(ŷ) + (1-y)·log(1-ŷ)]
@@ -801,7 +801,7 @@ Where:
 - y is the true label (0 or 1)
 - ŷ is the predicted probability
 
-## VI. Gradient Descent
+## Gradient Descent
 To minimize the cost function, we use gradient descent:
 
 1. Initialize W and b
@@ -811,7 +811,9 @@ To minimize the cost function, we use gradient descent:
 
 Where α is the learning rate.
 
-## VII. Advantages and Limitations
+
+## Advantages and Limitations
+
 Advantages:
 - Simple and interpretable
 - Performs well on linearly separable classes
@@ -821,12 +823,11 @@ Limitations:
 - Assumes a linear decision boundary
 - May underperform on complex datasets
 
-## VIII. Applications
+## Applications
 - Medical diagnosis
 - Email spam detection
 - Credit risk assessment
 - Marketing campaign response prediction
-
 
 
 ## Calculating the Error Function
@@ -849,12 +850,12 @@ Now that we know how to calculate the error, our goal will be to minimize it.
 
 ## Minimizing the Error Function in Logistic Regression
 
-## I. Introduction
+## Introduction
 
 Minimizing the error function is a crucial step in training a logistic regression model. The goal is to find the optimal 
 parameters (weights and bias) that result in the lowest possible error on the training data.
 
-## II. The Error Function
+## The Error Function
 
 Recall the error function for binary logistic regression:
 
@@ -865,7 +866,7 @@ Where:
 - yi is the true label (0 or 1)
 - ŷi is the predicted probability
 
-## III. Gradient Descent
+## Gradient Descent
 
 The primary method for minimizing the error function is gradient descent. This iterative optimization algorithm takes steps 
 proportional to the negative of the gradient of the function at the current point.
@@ -881,7 +882,7 @@ proportional to the negative of the gradient of the function at the current poin
 
 Where α is the learning rate.
 
-## IV. Calculating the Gradient
+## Calculating the Gradient
 
 The gradient for each weight wj is:
 
@@ -891,7 +892,8 @@ And for the bias b:
 
 ∂E/∂b = 1/m ∑(i=1 to m) (ŷi - yi)
 
-## V. Learning Rate
+
+## Learning Rate
 
 The learning rate α determines the step size at each iteration. 
 - If α is too small, convergence will be slow.
@@ -899,19 +901,19 @@ The learning rate α determines the step size at each iteration.
 
 Choosing an appropriate learning rate is crucial for effective minimization.
 
-## VI. Convergence
+## Convergence
 
 The algorithm converges when:
 - The change in error between iterations becomes very small
 - A maximum number of iterations is reached
 
-## VII. Variants of Gradient Descent
+## Variants of Gradient Descent
 
 1. Batch Gradient Descent: Uses the entire dataset for each update
 2. Stochastic Gradient Descent (SGD): Uses a single example for each update
 3. Mini-Batch Gradient Descent: Uses a small random subset of data for each update
 
-## VIII. Optimization Techniques
+## Optimization Techniques
 
 Several techniques can improve the basic gradient descent algorithm:
 
@@ -920,12 +922,12 @@ Several techniques can improve the basic gradient descent algorithm:
 3. RMSprop: Addresses AdaGrad's radically diminishing learning rates
 4. Adam: Combines ideas from momentum and RMSprop
 
-## IX. Avoiding Local Minima
+## Avoiding Local Minima
 
 The error function in logistic regression is convex, meaning it has only one global minimum. This ensures that gradient 
 descent will converge to the optimal solution, regardless of the initial parameter values.
 
-## X. Regularization
+## Regularization
 
 To prevent overfitting, we often add a regularization term to the error function:
 
