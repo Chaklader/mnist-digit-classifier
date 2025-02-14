@@ -1860,20 +1860,17 @@ In this lesson, we will learn how to:
 
 
 
-Dividing Data
+### Dividing Data
 
 
-When presented with a dataset, if we use the whole thing to train our model, then we do not know how it performs on unseen 
-data. We typically divide our data into three sets whose size can vary, but a good rule of thumb is the 80/10/10 rule:
+When presented with a dataset, if we use the whole thing to train our model, then we do not know how it performs on unseen data. We typically divide our data into three sets whose size can vary, but a good rule of thumb is the 80/10/10 rule:
 
 1. Train (80%)
 2. Validation (10%)
 3. Test (10%)
 
 
-Another powerful approach is k-fold cross-validation, where the data is split up into some number, which we call k, equal 
-parts. One is used as the validation set, one is used as the test set, and the remaining parts are used as the training set. 
-We then cycle through all combinations of the data until all parts have had a chance to be the test set.
+Another powerful approach is k-fold cross-validation, where the data is split up into some number, which we call k, equal parts. One is used as the validation set, one is used as the test set, and the remaining parts are used as the training set. We then cycle through all combinations of the data until all parts have had a chance to be the test set.
 
 
 When we train our models, it is entirely possible to get them to a point where they perform very well on our training data—but 
@@ -1886,10 +1883,7 @@ then perform very poorly on our testing data. Two common reasons for this are un
      into the model in a way that oversimplifies it.
 
    
-For example, suppose we train an image classifier to recognize dogs. And suppose that the only type of animal in the training 
-set is a dog. Perhaps the model learns a biased and overly simple rule like, "if it has four legs it is a dog". When we then 
-test our model on some data that has other animals, it may misclassify a cat as a dog—in other words, it will underfit the 
-data because it has error due to bias.
+For example, suppose we train an image classifier to recognize dogs. And suppose that the only type of animal in the training set is a dog. Perhaps the model learns a biased and overly simple rule like, "if it has four legs it is a dog". When we then test our model on some data that has other animals, it may misclassify a cat as a dog—in other words, it will underfit the data because it has error due to bias.
 
 2. Overfitting
    - Overfitting means that our model is too complicated. The fit between our model and the training data is too specific—the model 
@@ -1899,32 +1893,15 @@ data because it has error due to bias.
      performs poorly when we try to use it with our testing data.
 
 
-For example, suppose we want our image classifier to recognize dogs, but instead we train it to recognize "dogs that are yellow, 
-orange, or grey." If our testing set includes a dog that is brown, for example, our model will put it in a separate class, which 
-was not what we wanted. Our model is too specific—we have fit the data to some unimportant differences in the training data and 
-now it will fail to generalize.
+For example, suppose we want our image classifier to recognize dogs, but instead we train it to recognize "dogs that are yellow, orange, or grey." If our testing set includes a dog that is brown, for example, our model will put it in a separate class, which was not what we wanted. Our model is too specific—we have fit the data to some unimportant differences in the training data and now it will fail to generalize.
 
 
-Applying This to Neural Networks
+### Applying This to Neural Networks
 
-Generally speaking, underfitting tends to happen with neural networks that have overly simple architecture, while overfitting 
-tends to happen with models that are highly complex.
-
-The bad news is, it's really hard to find the right architecture for a neural network. There is a tendency to create a network 
-that either has overly simplistic architecture or overly complicated architecture. In general terms, the approach we will take 
-is to err on the side of an overly complicated model, and then we'll apply certain techniques to reduce the risk of overfitting.
+Generally speaking, underfitting tends to happen with neural networks that have overly simple architecture, while overfitting tends to happen with models that are highly complex. The bad news is, it's really hard to find the right architecture for a neural network. There is a tendency to create a network that either has overly simplistic architecture or overly complicated architecture. In general terms, the approach we will take is to err on the side of an overly complicated model, and then we'll apply certain techniques to reduce the risk of overfitting.
 
 
-
-When training our neural network, we start with random weights in the first epoch and then change these weights as we go 
-through additional epochs. Initially, we expect these changes to improve our model as the neural network fits the training 
-data more closely. But after some time, further changes will start to result in overfitting.
-
-
-We can monitor this by measuring both the training error and the testing error. As we train the network, the training error 
-will go down—but at some point, the testing error will start to increase. This indicates overfitting and is a signal that 
-we should stop training the network prior to that point. We can see this relationship in a model complexity graph like this one:
-
+When training our neural network, we start with random weights in the first epoch and then change these weights as we go through additional epochs. Initially, we expect these changes to improve our model as the neural network fits the training data more closely. But after some time, further changes will start to result in overfitting. We can monitor this by measuring both the training error and the testing error. As we train the network, the training error will go down—but at some point, the testing error will start to increase. This indicates overfitting and is a signal that we should stop training the network prior to that point. We can see this relationship in a model complexity graph like this one:
 
 
 <br>
@@ -1945,8 +1922,7 @@ In summary, we do gradient descent until the testing error stops decreasing and 
 This algorithm is called early stopping and is widely used to train neural networks.
 
 
-
-Considering the Activation Functions
+### Considering the Activation Functions
 
 A key point here is to consider the activation functions of these two equations:
 
@@ -1991,6 +1967,7 @@ Where:
 - m is the number of training examples
 - yᵢ is the true label
 - ŷᵢ is the predicted probability
+
 
 ## Types of Regularization
 
@@ -2059,14 +2036,14 @@ L1 vs L2 Regularization
 The first approach (using absolute values) is called L1 regularization, while the second (using squares) is called L2 
 regularization. Here are some general guidelines for deciding between the two:
 
-L1 Regularization
+### L1 Regularization
 
 1. L1 tends to result in sparse vectors. That means small weights will tend to go to zero.
 2. If we want to reduce the number of weights and end up with a small set, we can use L1.
 3. L1 is also good for feature selection. Sometimes we have a problem with hundreds of features, and L1 regularization 
    will help us select which ones are important, turning the rest into zeroes.
 
-L2 Regularization
+### L2 Regularization
 
 1. L2 tends not to favor sparse vectors since it tries to maintain all the weights homogeneously small.
 2. L2 gives better results for training models so it's the one we'll use the most.
