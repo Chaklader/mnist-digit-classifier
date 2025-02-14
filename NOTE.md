@@ -1558,22 +1558,15 @@ Where:
    - Take the output from the hidden layer and apply W⁽²⁾
    - Apply σ again to get the final output ŷ
 
-## Importance
-The feedforward process allows neural networks to approximate complex functions. By stacking multiple layers of linear 
-transformations and non-linear activations, the network can learn to represent intricate patterns in the data.
 
-
-## Conclusion
-Feedforward is the core operation in neural networks, transforming inputs into outputs. It's the process that allows 
-trained networks to make predictions on new, unseen data.
+The feedforward process allows neural networks to approximate complex functions. By stacking multiple layers of linear transformations and non-linear activations, the network can learn to represent intricate patterns in the data. Feedforward is the core operation in neural networks, transforming inputs into outputs. It's the process that allows trained networks to make predictions on new, unseen data.
 
 
 
 ## Activation Functions in Neural Networks
 
 
-Activation functions are mathematical operations applied to the output of a neuron in a neural network. They serve several 
-crucial purposes:
+Activation functions are mathematical operations applied to the output of a neuron in a neural network. They serve several crucial purposes:
 
 1. Non-linearity: They introduce non-linear properties to the network, allowing it to learn complex patterns and relationships in data.
 
@@ -1591,17 +1584,14 @@ Common activation functions include:
 - Tanh: Similar to sigmoid, but maps to (-1, 1)
 
 
-The choice of activation function can significantly impact a neural network's performance and training dynamics. Six activation 
-functions plotted: ReLU, Leaky ReLU, Sigmoid, Tanh, Step, and GELU
+The choice of activation function can significantly impact a neural network's performance and training dynamics. Six activation functions plotted: ReLU, Leaky ReLU, Sigmoid, Tanh, Step, and GELU
 
 
 <br>
-
-![Alt text](images/activation.png)
-
+<img src="images/activation.png" alt="Activation Functions" width=600 height=auto>
 <br>
 
-Activation Function Properties
+### Activation Function Properties
 
 There are a wide variety of activation functions that we can use. Activation functions should be:
 
@@ -1613,20 +1603,19 @@ There are a wide variety of activation functions that we can use. Activation fun
 We can loosen these restrictions slightly. For example, ReLU is not differentiable at the origin. Others, like monotonicity, 
 are very important and cannot be reasonably relaxed.
 
-## I. Introduction
 
-Activation functions are crucial components in neural networks, introducing non-linearity into the network's computations. 
-They determine whether a neuron should be activated or not, based on the relevance of the input in the prediction process.
+Activation functions are crucial components in neural networks, introducing non-linearity into the network's computations. They determine whether a neuron should be activated or not, based on the relevance of the input in the prediction process.
 
-## II. Purpose of Activation Functions
+
+## Purpose of Activation Functions
 
 1. Introduce non-linearity: Allow networks to learn complex patterns
 2. Normalize the output: Often bound the output to a specific range
 3. Enable backpropagation: Most are differentiable, allowing gradient-based optimization
 
-## III. Common Activation Functions
+## Common Activation Functions
 
-### A. Sigmoid Function
+### Sigmoid Function
 
 σ(x) = 1 / (1 + e^(-x))
 
@@ -1634,7 +1623,8 @@ They determine whether a neuron should be activated or not, based on the relevan
 - Pros: Smooth gradient, clear predictions
 - Cons: Vanishing gradient problem, not zero-centered
 
-### B. Hyperbolic Tangent (tanh)
+
+### Hyperbolic Tangent (tanh)
 
 tanh(x) = (e^x - e^(-x)) / (e^x + e^(-x))
 
@@ -1642,7 +1632,7 @@ tanh(x) = (e^x - e^(-x)) / (e^x + e^(-x))
 - Pros: Zero-centered, stronger gradients than sigmoid
 - Cons: Still suffers from vanishing gradient problem
 
-### C. Rectified Linear Unit (ReLU)
+### Rectified Linear Unit (ReLU)
 
 f(x) = max(0, x)
 
@@ -1650,32 +1640,32 @@ f(x) = max(0, x)
 - Pros: Computationally efficient, mitigates vanishing gradient
 - Cons: "Dying ReLU" problem (neurons can become inactive)
 
-### D. Leaky ReLU
+### Leaky ReLU
 
 f(x) = max(αx, x), where α is a small constant
 
 - Addresses the "dying ReLU" problem
 - Allows small negative values when x < 0
 
-### E. Softmax (for multi-class classification)
+### Softmax (for multi-class classification)
 
 softmax(x_i) = e^(x_i) / Σ(e^(x_j))
 
 - Outputs a probability distribution over classes
 
-## IV. Choosing Activation Functions
+## Choosing Activation Functions
 
 - Hidden layers: ReLU is often a good default choice
 - Output layer: Depends on the task (e.g., sigmoid for binary classification, softmax for multi-class)
 - Consider the problem domain and network architecture
 
-## V. Impact on Training
+## Impact on Training
 
 - Affects the speed of convergence
 - Influences the occurrence of vanishing/exploding gradients
 - Can impact the network's ability to approximate complex functions
 
-## VI. Recent Developments
+## Recent Developments
 
 - Swish: f(x) = x * sigmoid(βx)
 - GELU (Gaussian Error Linear Unit)
@@ -1683,33 +1673,24 @@ softmax(x_i) = e^(x_i) / Σ(e^(x_j))
 
 These newer functions aim to combine the benefits of traditional activations while mitigating their drawbacks.
 
-## VII. Practical Considerations
+
+## Practical Considerations
 
 - Initialization: Different activation functions may require different weight initialization strategies
 - Learning rate: The choice of activation function can influence the appropriate learning rate
 - Regularization: Some activations (like ReLU) can have a regularizing effect
 
-
-## VIII. Conclusion
-
-Activation functions are essential for enabling neural networks to learn complex, non-linear relationships in data. Understanding 
-their properties and impacts is crucial for designing effective neural network architectures and troubleshooting training issues.
+Activation functions are essential for enabling neural networks to learn complex, non-linear relationships in data. Understanding their properties and impacts is crucial for designing effective neural network architectures and troubleshooting training issues.
 
 
+## Output Functions in Neural Networks - Softmax
+
+### Introduction to Output Functions
 
 
-# Output Functions in Neural Networks - Softmax
+Output functions, also known as activation functions for the output layer, determine the final form of a neural network's output. They are crucial for mapping the network's computations to the desired output format, especially in classification tasks.
 
-## I. Introduction to Output Functions
-
-
-Output functions, also known as activation functions for the output layer, determine the final form of a neural network's 
-output. They are crucial for mapping the network's computations to the desired output format, especially in classification 
-tasks.
-
-## II. The Softmax Function
-
-### A. Definition
+### The Softmax Function
 
 The Softmax function is defined as:
 
@@ -1720,23 +1701,24 @@ Where:
 - i represents the i-th element of the input
 - k is the number of classes
 
-### B. Properties
+
+### Properties
 
 1. Produces a probability distribution:
    - Outputs are between 0 and 1
    - Sum of all outputs equals 1
-
 2. Emphasizes the largest values while suppressing lower ones
-
 3. Preserves the order of inputs (monotonic)
 
-## III. Applications of Softmax
+
+### Applications of Softmax
 
 1. Multi-class Classification: Primary use case
 2. Neural Network Output Layer: Common for classification tasks
 3. Probability Estimation: Provides probabilities for each class
 
-## IV. Characteristics (as mentioned in the image)
+
+### Characteristics 
 
 1. Difficult to plot:
    - Returns a probability distribution across classes
@@ -1745,30 +1727,27 @@ Where:
 2. Returns a vector of probabilities:
    - Each element corresponds to the probability of a class given the input
 
-## V. Advantages of Softmax
+### Advantages of Softmax
 
 1. Interpretable outputs as probabilities
 2. Handles multi-class problems naturally
 3. Differentiable, allowing for backpropagation
 
-## VI. Considerations
+### Considerations
 
 1. Computationally expensive for large numbers of classes
 2. Can be sensitive to large input values
 3. Not suitable for multi-label classification (where an instance can belong to multiple classes)
 
-## VII. Implementation
+
+### Implementation
 
 In practice, Softmax is often combined with cross-entropy loss for training classification models. Many deep learning frameworks 
 provide built-in implementations of Softmax.
 
+### Conclusion
 
-
-## VIII. Conclusion
-
-The Softmax function is a powerful tool for multi-class classification problems, providing a way to convert arbitrary real-valued 
-vectors into probability distributions. Its ability to handle multiple classes and provide interpretable outputs makes it a staple 
-in many neural network architectures.
+The Softmax function is a powerful tool for multi-class classification problems, providing a way to convert arbitrary real-valued vectors into probability distributions. Its ability to handle multiple classes and provide interpretable outputs makes it a staple in many neural network architectures.
 
 
 
@@ -1817,7 +1796,6 @@ The choice between MAE and MSE often depends on the specific requirements of you
 - Use MSE when you want to penalize large errors more severely, or when you need a differentiable loss function for optimization.
 
 Both provide valuable insights into your model's performance in regression tasks.
-
 
 
 
@@ -1898,8 +1876,7 @@ Explanation:
    ```
    
 
-   The sigmoid function is appropriate for binary classification as it squashes the output to a range between 0 and 1, which 
-   can be interpreted as the probability of a road hazard being present.
+The sigmoid function is appropriate for binary classification as it squashes the output to a range between 0 and 1, which can be interpreted as the probability of a road hazard being present.
 
 These modifications are necessary to adapt the LeNet-5 model, originally designed for multi-class classification, to a binary 
 classification task (road hazard detection). The output size change ensures we get a single value, and the sigmoid activation 
