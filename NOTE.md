@@ -1928,9 +1928,7 @@ we should stop training the network prior to that point. We can see this relatio
 
 
 <br>
-
-![Alt text](images/training.png)
-
+<img src="images/training.png" alt="Training graph" width=600 height=auto>
 <br>
 
 
@@ -1954,9 +1952,7 @@ A key point here is to consider the activation functions of these two equations:
 
 
 <br>
-
-![Alt text](images/acf.png)
-
+<img src="images/acf.png" alt="Activation Functions" width=600 height=auto>
 <br>
 
 
@@ -1970,27 +1966,25 @@ that are classified incorrectly in the model on the right will generate large er
 to correct them.
 
 
-# Regularization in Machine Learning
+## Regularization in Machine Learning
 
 
-## I. Introduction to Regularization
+Regularization is a technique used in machine learning to prevent overfitting by adding a penalty term to the error function. It helps to control the model's complexity and improve its generalization ability.
 
-Regularization is a technique used in machine learning to prevent overfitting by adding a penalty term to the error function. 
-It helps to control the model's complexity and improve its generalization ability.
-
-## II. The Problem of Overfitting
+###  The Problem of Overfitting
 
 1. When applying sigmoid to small values (e.g., x₁ + x₂), we get a function with a nice slope for gradient descent.
 2. However, when we multiply the linear function by a large number (e.g., 10x₁ + 10x₂), the predictions become closer to 0 and 1, 
    but the function becomes much steeper.
 3. This steeper function is harder for gradient descent and can lead to overfitting.
 
-## III. Regularization: The Solution
+### Regularization 
 
-Regularization prevents overfitting by penalizing large weights in the model. It modifies the error function by adding a term 
-that grows as weights increase.
+Regularization prevents overfitting by penalizing large weights in the model. It modifies the error function by adding a term that grows as weights increase.
+
 
 ### Original Error Function:
+
 -1/m ∑(i=1 to m) [(1 - yᵢ)ln(1 - ŷᵢ) + yᵢln(ŷᵢ)]
 
 Where:
@@ -1998,9 +1992,9 @@ Where:
 - yᵢ is the true label
 - ŷᵢ is the predicted probability
 
-## IV. Types of Regularization
+## Types of Regularization
 
-### A. L1 Regularization (Lasso)
+### L1 Regularization (Lasso)
 
 Added term: +λ(|w₁| + ... + |wₙ|)
 
@@ -2009,7 +2003,7 @@ Characteristics:
 2. Useful for reducing the number of weights
 3. Good for feature selection in problems with many features
 
-### B. L2 Regularization (Ridge)
+### L2 Regularization (Ridge)
 
 Added term: +λ(w₁² + ... + wₙ²)
 
@@ -2022,7 +2016,7 @@ Where:
 - λ (lambda) is the regularization parameter
 - wᵢ are the model weights
 
-## V. Choosing Between L1 and L2 Regularization
+### Choosing Between L1 and L2 Regularization
 
 1. Use L1 when:
    - You want to reduce the number of features
@@ -2033,20 +2027,16 @@ Where:
    - You want to keep all features but with smaller weights
    - You're primarily focused on improving model performance
 
-## VI. Impact of Regularization
+### Impact of Regularization
 
 1. Helps prevent overfitting by discouraging complex models
 2. Improves model generalization
 3. Can lead to more interpretable models, especially with L1 regularization
 
-## VII. Conclusion
 
-Regularization is a powerful technique for improving machine learning models. By penalizing large weights, it helps strike 
-a balance between fitting the training data and maintaining simplicity in the model. The choice between L1 and L2 regularization 
-depends on the specific requirements of the problem at hand.
+Regularization is a powerful technique for improving machine learning models. By penalizing large weights, it helps strike a balance between fitting the training data and maintaining simplicity in the model. The choice between L1 and L2 regularization depends on the specific requirements of the problem at hand.
 
-Now the question is, how do we prevent this type of overfitting from happening? The trouble is that large coefficients are 
-leading to overfitting, so what we need to do is adjust our error function by, essentially, penalizing large weights.
+Now the question is, how do we prevent this type of overfitting from happening? The trouble is that large coefficients are leading to overfitting, so what we need to do is adjust our error function by, essentially, penalizing large weights.
 
 If you recall, our original error function looks like this:
 
@@ -2084,9 +2074,8 @@ L2 Regularization
 
 Sure, here's the explanation of sparse vectors in Markdown format:
 
-# Sparse Vectors in Machine Learning
+## Sparse Vectors in Machine Learning
 
-## Definition
 A sparse vector is a vector in which most of the elements are zero. In machine learning, sparse vectors often refer to model weights where many parameters are zero or very close to zero.
 
 ## Dense vs. Sparse Vectors
@@ -2133,24 +2122,22 @@ Understanding sparse vectors is crucial when:
 - Feature selection is a key consideration in your machine learning task
 
 
-# Dropout in Neural Networks
-
-## Introduction to Dropout
+## Dropout in Neural Networks
 
 Dropout is a regularization technique used in neural networks to prevent overfitting and improve generalization. It addresses 
 the problem of uneven training across different parts of the network.
 
-## The Problem
+### The Problem
 
 - Some parts of the network may develop very large weights, dominating the training process.
 - Other parts may become underutilized, not contributing significantly to learning.
 
-## How Dropout Works
+### How Dropout Works
 
 1. **Random Deactivation**: During training, randomly turn off (or "drop out") some nodes in the network.
 2. **Forcing Adaptation**: This process forces the remaining active nodes to compensate and take on more responsibility in the learning process.
 
-## Implementation Details
+### Implementation Details
 
 - **Dropout Rate**: A parameter that determines the probability of each node being dropped during an epoch.
   - Example: A dropout rate of 0.2 means each node has a 20% chance of being turned off in each epoch.
@@ -2160,7 +2147,7 @@ the problem of uneven training across different parts of the network.
   - Some nodes might never be dropped.
   - This variability is acceptable due to the law of large numbers - over many epochs, each node will receive approximately equal treatment.
 
-## Benefits of Dropout
+### Benefits of Dropout
 
 1. **Prevents Overfitting**: By forcing the network to learn with different subsets of nodes, it reduces reliance on specific features.
 2. **Improves Generalization**: The network becomes more robust and better at handling unseen data.
@@ -2172,19 +2159,12 @@ the problem of uneven training across different parts of the network.
 - **Inference**: During testing or deployment, all nodes are typically used, but their outputs are often scaled by the dropout rate.
 
 
-## Conclusion
-
-Dropout is a powerful technique that helps in creating more balanced and robust neural networks. By randomly deactivating 
-nodes during training, it encourages the network to develop redundant representations and avoid over-reliance on specific 
-features or nodes.
-
+Dropout is a powerful technique that helps in creating more balanced and robust neural networks. By randomly deactivating nodes during training, it encourages the network to develop redundant representations and avoid over-reliance on specific features or nodes.
 
 
 
 <br>
-
-![Alt text](images/board.png)
-
+<img src="images/board.png" alt="Board" width=600 height=auto>
 <br>
 
 
@@ -2230,9 +2210,7 @@ minimum. Early stopping helps with overfitting, while random restart addresses t
 epochs or using dropout might not be as effective in this specific scenario, given the observed behavior of the model.
 
 <br>
-
-![Alt text](images/board_1.png)
-
+<img src="images/board_1.png" alt="Board" width=600 height=auto>
 <br>
 
 
@@ -2260,7 +2238,7 @@ with additional training time.
 
 
 
-# Vanishing and Exploding Gradients in Deep Neural Networks
+## Vanishing and Exploding Gradients in Deep Neural Networks
 
 Vanishing and exploding gradients are common challenges in training deep neural networks. Vanishing gradients occur when 
 gradients become extremely small as they propagate backwards through the network, leading to slow or stalled learning in 
@@ -2272,12 +2250,7 @@ or gating mechanisms in LSTMs. Addressing these problems is crucial for effectiv
 optimal performance.
 
 
-
-
-## I. Introduction
-
-Vanishing and exploding gradients are common problems in training deep neural networks, particularly those with many layers. 
-These issues can significantly impede the learning process and affect the network's performance.
+Vanishing and exploding gradients are common problems in training deep neural networks, particularly those with many layers. These issues can significantly impede the learning process and affect the network's performance.
 
 ## II. Gradient Flow in Neural Networks
 
@@ -2371,7 +2344,7 @@ If your model is not working, a good general rule of thumb is to try decreasing 
 are those that decrease as the algorithm is getting closer to a solution.
 
 
-# Momentum in Gradient Descent
+## Momentum in Gradient Descent
 
 Momentum is a technique used to improve the performance of gradient descent optimization, particularly in dealing with local 
 minima. It introduces a constant β (beta) between 0 and 1 to create a weighted average of previous steps.
@@ -2416,12 +2389,12 @@ optimization might overshoot minima or oscillate. Typical values for β range fr
 choice in practice.
 
 
-# Batch vs Stochastic Gradient Descent
+## Batch vs Stochastic Gradient Descent
 
 Gradient descent is a fundamental optimization algorithm in machine learning, particularly for training neural networks. 
 There are two main variants: Batch Gradient Descent and Stochastic Gradient Descent.
 
-## Batch Gradient Descent
+### Batch Gradient Descent
 
 In batch gradient descent, we use the entire dataset for each iteration (epoch):
 
