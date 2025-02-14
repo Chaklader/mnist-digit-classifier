@@ -1124,6 +1124,10 @@ Multilayer Perceptrons (MLPs) are neural networks with one or more hidden layers
 Example: A network with three input units, two hidden units, and one output unit.
 
 
+<br>
+<img src="images/mlp_1.png" width=600 height=auto>
+<br>
+
 ## Calculation Process
 
 1. Input to hidden layer: Weighted sum of inputs plus bias
@@ -1144,6 +1148,11 @@ For a network with 3 input units and 2 hidden units:
 [w₁₁ w₁₂]
 [w₂₁ w₂₂]
 [w₃₁ w₃₂]
+
+
+<br>
+<img src="images/mlp_2.png" width=600 height=auto>
+<br>
 
 ## Hidden Layer Calculation
 For each hidden unit hⱼ:
@@ -1200,7 +1209,7 @@ output_k = f(y_k)
 <br>
 <br>
 
-## Backpropagation in Neural Networks
+## Backpropagation 
 
 <br>
 
