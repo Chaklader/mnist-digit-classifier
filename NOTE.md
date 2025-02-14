@@ -1075,6 +1075,12 @@ The result is then passed through an activation function. In the simplest case, 
 - This boundary is a hyperplane defined by the equation Wx + b = 0.
 - Inputs on one side of this hyperplane are classified as "Yes", and on the other side as "No".
 
+
+<br>
+<img src="images/step.png" width=600 height=auto>
+<br>
+
+
 ## Learning Process
 
 - The weights and bias of a Perceptron can be adjusted through a learning process.
