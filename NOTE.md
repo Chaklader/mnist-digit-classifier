@@ -548,6 +548,45 @@ Maximum Likelihood Estimation with the sigmoid function provides a powerful fram
 
 
 
+## Cross Entropy 
+
+
+Cross-entropy is a fundamental concept in machine learning that measures how different two probability distributions are from each other. It's particularly important in classification tasks where we need to measure how far off our model's predictions are from the true labels.
+
+There are two main formulations:
+
+1. Binary Cross-Entropy:
+Used when we have just two possible classes (binary classification). The formula is:
+
+```
+-Σ[yi log(pi) + (1-yi)log(1-pi)]
+```
+
+where yi represents the true labels and pi represents our predictions.
+
+2. Multi-Class Cross-Entropy:
+Used when we have multiple classes (M classes). The formula extends to:
+
+```
+-Σ Σ yij log(pij)
+```
+
+where we sum over both examples (i) and classes (j).
+
+Cross-entropy is particularly useful as a loss function in neural networks and other machine learning models because:
+- It effectively captures the distance between predicted and actual probability distributions
+- It penalizes predictions that are very confident but wrong
+- It provides good gradients for optimization
+- It works well for both binary and multi-class classification problems
+
+The negative sign in both formulas ensures that minimizing cross-entropy brings our predictions closer to the true labels, making it an ideal choice for training neural networks.
+
+<br>
+<img src="images/cross.png" alt="Cross-Entropy" width="600" height=auto />
+<br>
+
+
+
 # Gradient Calculation
 
 
@@ -657,13 +696,11 @@ constant, then in order to simplify calculations, we'll just take 1/m · α to b
 by just calling it α.
 
 
-# Gradient Calculation for Logistic Regression
-
-## I. Introduction
+## Gradient Calculation for Logistic Regression
 
 In logistic regression, we need to calculate derivatives to minimize the error function. This lecture note focuses on computing the gradient of the error function.
 
-## II. Sigmoid Function Derivative
+## Sigmoid Function Derivative
 
 The sigmoid function has a convenient derivative:
 
@@ -676,7 +713,7 @@ Proof:
        = [1 / (1 + e^(-x))] · [e^(-x) / (1 + e^(-x))]
        = σ(x)(1 - σ(x))
 
-## III. Error Function
+## Error Function
 
 For m points labeled x^(1), x^(2), ..., x^(m), the error formula is:
 
@@ -684,13 +721,13 @@ E = -1/m ∑(i=1 to m) [yi ln(ŷi) + (1 - yi) ln(1 - ŷi)]
 
 Where the prediction is given by ŷi = σ(Wx^(i) + b).
 
-## IV. Gradient Calculation
+## Gradient Calculation
 
 Our goal is to calculate the gradient of E at a point x = (x1, ..., xn):
 
 ∇E = (∂E/∂w1, ..., ∂E/∂wn, ∂E/∂b)
 
-### A. Derivative with respect to weights
+### Derivative with respect to weights
 
 First, we calculate ∂ŷ/∂wj:
 
@@ -702,23 +739,25 @@ Then, we calculate ∂E/∂wj:
         = -y(1 - ŷ)xj + (1 - y)ŷxj
         = -(y - ŷ)xj
 
-### B. Derivative with respect to bias
+### Derivative with respect to bias
 
 Similarly, we can show that:
 
 ∂E/∂b = -(y - ŷ)
 
-## V. Final Gradient Formula
+## Final Gradient Formula
 
 For a point with coordinates (x1, ..., xn), label y, and prediction ŷ, the gradient of the error function at that point is:
 
 ∇E = -(y - ŷ)(x1, ..., xn, 1)
 
 
-## VI. Significance
+## Significance
 
 The gradient is a scalar (y - ŷ) multiplied by the coordinates of the point (with an additional 1 for the bias term). This 
 scalar represents the difference between the true label and the prediction, highlighting the error's direct influence on the gradient's magnitude and direction.
+
+
 
 
 ### Logistic Regression
@@ -730,8 +769,6 @@ scalar represents the difference between the true label and the prediction, high
 4. Minimize the error and obtain a better model
 
 
-
-## I. Introduction
 Logistic regression is a fundamental machine learning algorithm used for binary classification problems. Despite its name, it's a classification algorithm, not a regression algorithm.
 
 ## II. The Logistic Function
