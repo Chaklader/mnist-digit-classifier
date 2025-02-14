@@ -227,7 +227,7 @@ models.
 
 
 
-# Data Preprocessing with PyTorch
+## Data Preprocessing with PyTorch
 
 Data preprocessing is a crucial step in preparing your data for machine learning models. PyTorch provides various tools and techniques 
 to preprocess your data efficiently. Let's explore the key preprocessing steps mentioned in the image and how to implement them 
@@ -260,8 +260,7 @@ model's performance and generalization capabilities.
 
 ## Data Representation
 
-Rarely can we use "out of the box" input. We need our input to be tensors, but often our raw data consists of images, text, 
-or tabular data, and we can't easily input those directly into our model.
+Rarely can we use "out of the box" input. We need our input to be tensors, but often our raw data consists of images, text, or tabular data, and we can't easily input those directly into our model.
 
 1. For image data, we need the data to be turned into tensors with entries of the tensors as bit values in color channels (usually red, green, and blue).
 2. Text data needs to be tokenized, meaning, individual words or groups of letters need to be mapped to a token value.
@@ -269,7 +268,8 @@ or tabular data, and we can't easily input those directly into our model.
 transform into numbers for processing.
 
 
-Transforming Data for Neural Networks
+### Transforming Data for Neural Networks
+
 Often, we are faced with data that is not in a format conducive to use in neural networks in its raw form. Preprocessing is the act of turning data from that raw form into tensors that can be used as input to a neural network. This includes:
 
 
@@ -446,21 +446,21 @@ especially when implemented with modern deep learning frameworks like PyTorch.
 
 ## Maximum Likelihood
 
-# Maximum Likelihood Estimation with Sigmoid Function
 
-## Introduction
+### Maximum Likelihood Estimation with Sigmoid Function
+
+#### Introduction
 
 Maximum Likelihood Estimation (MLE) is a fundamental method in statistics and machine learning for estimating the parameters of a probability distribution. When combined with the sigmoid function, it forms the basis of logistic regression, a powerful tool for binary classification.
 
-## The Sigmoid Function
 
-### Definition
+#### The Sigmoid Function
 
 The sigmoid function, also known as the logistic function, is defined as:
 
 σ(z) = 1 / (1 + e^(-z))
 
-### Properties
+### Properties of the Sigmoid Function
 
 1. Output range: (0, 1)
 2. S-shaped curve
@@ -1340,43 +1340,6 @@ For now we'll only consider a simple network with one hidden layer and one outpu
 
 This algorithm outlines the process of implementing backpropagation for a simple neural network with one hidden layer and 
 one output unit.
-
-
-
-```textmate
-def update_weights(weights_input_to_hidden, weights_hidden_to_output, 
-                 features, targets, learnrate):
-    """
-    Complete a single epoch of gradient descent and return updated weights
-    """
-    delta_w_i_h = np.zeros(weights_input_to_hidden.shape)
-    delta_w_h_o = np.zeros(weights_hidden_to_output.shape)
-
-    # Loop through all records, x is the input, y is the target
-    for x, y in zip(features.values, targets):
-        ## Forward pass ##
-
-        # Calculate the output using the forward_pass function.
-        hidden_layer_out, output_layer_out = forward_pass(x,
-            weights_input_to_hidden, weights_hidden_to_output)
-        ## Backward pass ##
-
-        # Calculate the change in weights using the backward_pass
-        # function.
-        delta_w_h_o_tmp, delta_w_i_h_tmp = backward_pass(x, y, learnrate,
-            hidden_layer_out, output_layer_out, weights_hidden_to_output)
-        delta_w_h_o += delta_w_h_o_tmp
-        delta_w_i_h += delta_w_i_h_tmp
-
-    n_records = features.shape[0]
-    # Update weights  (don't forget division by n_records or number
-    # of samples).
-    weights_input_to_hidden += delta_w_i_h / n_records
-    weights_hidden_to_output += delta_w_h_o / n_records
-
-    return weights_input_to_hidden, weights_hidden_to_output
-```
-
 
 
 # C-5: Training Neural Networks
@@ -2977,7 +2940,7 @@ Often, we are faced with data that is not in a format conducive to use in neural
 3. Tokenizing words
 
 
-One-Hot Encoding:
+## One-Hot Encoding
 
 1. Definition:
    One-Hot Encoding is a process of converting categorical variables into a form that could be provided to machine learning algorithms to do a better job in prediction. It creates binary columns for each category and uses 0 or 1 to indicate the presence of that category.
@@ -3009,35 +2972,7 @@ One-Hot Encoding:
 6. Disadvantages:
    - Can significantly increase the number of features, leading to the "curse of dimensionality" for datasets with many categorical variables or categories.
 
-7. PyTorch Implementation:
-   While PyTorch doesn't have a built-in one-hot encoder, you can easily implement it:
-
-```textmate
-import torch
-import torch.nn.functional as F
-
-# Assume we have categorical data as integers
-data = torch.tensor([0, 2, 1, 1, 0, 2])
-num_categories = 3
-
-# One-hot encode
-one_hot = F.one_hot(data, num_classes=num_categories)
-
-print(one_hot)
-```
-
-This will output:
-
-```textmate
-tensor([[1, 0, 0],
-        [0, 0, 1],
-        [0, 1, 0],
-        [0, 1, 0],
-        [1, 0, 0],
-        [0, 0, 1]])
-```
-
-8. When to use One-Hot Encoding vs Label Encoding:
+7. When to use One-Hot Encoding vs Label Encoding:
    - Use One-Hot Encoding for nominal categorical variables (no inherent order).
    - Use Label Encoding for ordinal categorical variables (have a natural order).
 
@@ -3048,44 +2983,33 @@ relationships between categories. It ensures that the machine learning model tre
 
 
 
-Error Function 
+## Error Function 
 
-An error function is simply a function that measures how far the current state is from the solution. We can calculate the 
-error and then make a change in an attempt to reduce the error—and then repeat this process until we have reduced the error 
-to an acceptable level.
+An error function is simply a function that measures how far the current state is from the solution. We can calculate the error and then make a change in an attempt to reduce the error—and then repeat this process until we have reduced the error to an acceptable level.
 
 
+## Log-Loss Error Function
 
-Log-Loss Error Function
+### Discrete and Continuous Errors
 
-Discrete and Continuous Errors
-One approach to reducing errors might be to simply count the number of errors and then make changes until the number of 
-errors is reduced. But taking a discrete approach like this can be problematic—for example, we could change our line in 
-a way that gets closer to the solution, but this change might not (by itself) improve the number of misclassified points.
+One approach to reducing errors might be to simply count the number of errors and then make changes until the number of errors is reduced. But taking a discrete approach like this can be problematic—for example, we could change our line in a way that gets closer to the solution, but this change might not (by itself) improve the number of misclassified points.
 
-Instead, we need to construct an error function that is continuous. That way, we can always tell if a small change in the 
-line gets us closer to the solution. We'll do that in this lesson using the log-loss error function. Generally speaking, 
-the log-loss function will assign a large penalty to incorrectly classified points and small penalties to correctly classified 
-points. For a point that is misclassified, the penalty is roughly the distance from the boundary to the point. For a point that 
-is correctly classified, the penalty is almost zero.
+Instead, we need to construct an error function that is continuous. That way, we can always tell if a small change in the line gets us closer to the solution. We'll do that in this lesson using the log-loss error function. Generally speaking, the log-loss function will assign a large penalty to incorrectly classified points and small penalties to correctly classified points. For a point that is misclassified, the penalty is roughly the distance from the boundary to the point. For a point that is correctly classified, the penalty is almost zero.
 
-We can then calculate a total error by adding all the errors from the corresponding points. Then we can use gradient descent 
-to solve the problem, making very tiny changes to the parameters of the line in order to decrease the total error until we 
-have reached an acceptable minimum.
+We can then calculate a total error by adding all the errors from the corresponding points. Then we can use gradient descent to solve the problem, making very tiny changes to the parameters of the line in order to decrease the total error until we have reached an acceptable minimum.
 
-We need to cover some other concepts before we get into the specifics of how to calculate our log-loss function, but we'll 
-come back to it when we dive into gradient descent later in the lesson.
+We need to cover some other concepts before we get into the specifics of how to calculate our log-loss function, but we'll come back to it when we dive into gradient descent later in the lesson.
 
 
 
 # Log-Loss Error Function and Its Use in Gradient Descent
 
 
-## I. Introduction to Log-Loss Error Function
+## Introduction to Log-Loss Error Function
 
 The Log-Loss Error Function, also known as Cross-Entropy Loss, is a widely used loss function in machine learning, particularly for binary and multi-class classification problems.
 
-### A. Definition
+### Definition
 
 For binary classification, the Log-Loss function is defined as:
 
@@ -3096,13 +3020,13 @@ Where:
 - yi is the true label (0 or 1)
 - ŷi is the predicted probability of the positive class
 
-### B. Characteristics
+### Characteristics
 
 1. Always positive: Log-Loss is always ≥ 0
 2. Perfect prediction: Log-Loss = 0 when the model predicts the correct class with 100% confidence
 3. Penalizes confident mistakes: Heavily penalizes predictions that are both confident and wrong
 
-## II. Log-Loss in Multi-class Classification
+## Log-Loss in Multi-class Classification
 
 For multi-class problems, the formula extends to:
 
@@ -3114,18 +3038,18 @@ Where:
 - ŷij is the predicted probability that sample i belongs to class j
 
 
-## III. Why Use Log-Loss?
+## Why Use Log-Loss?
 
 1. Probabilistic interpretation: Directly models probability distributions
 2. Differentiable: Suitable for optimization algorithms like gradient descent
 3. Handles imbalanced datasets well
 4. Provides smoother gradients compared to other loss functions (e.g., 0-1 loss)
 
-## IV. Log-Loss and Gradient Descent
+## Log-Loss and Gradient Descent
 
 Gradient Descent is an optimization algorithm used to minimize the loss function by iteratively adjusting the model parameters.
 
-### A. Gradient Descent Process
+### Gradient Descent Process
 
 1. Initialize model parameters randomly
 2. Calculate the predicted probabilities using current parameters
@@ -3134,7 +3058,7 @@ Gradient Descent is an optimization algorithm used to minimize the loss function
 5. Update parameters in the opposite direction of the gradient
 6. Repeat steps 2-5 until convergence
 
-### B. Gradient Calculation
+### Gradient Calculation
 
 For logistic regression (binary classification), the gradient of Log-Loss with respect to weights w is:
 
@@ -3145,47 +3069,11 @@ Where:
 - ŷ is the vector of predicted probabilities
 - y is the vector of true labels
 
-### C. Parameter Update Rule
+### Parameter Update Rule
 
 w_new = w_old - α ∂L/∂w
 
 Where α is the learning rate.
-
-## V. Implementation in PyTorch
-
-PyTorch provides built-in functions for Log-Loss and automatic gradient computation:
-
-
-
-```textmate
-import torch
-import torch.nn as nn
-
-# Define model
-class LogisticRegression(nn.Module):
-    def __init__(self, input_dim):
-        super(LogisticRegression, self).__init__()
-        self.linear = nn.Linear(input_dim, 1)
-    
-    def forward(self, x):
-        return torch.sigmoid(self.linear(x))
-
-# Create model, loss function, and optimizer
-model = LogisticRegression(input_dim=10)
-criterion = nn.BCELoss()  # Binary Cross-Entropy Loss
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
-
-# Training loop
-for epoch in range(100):
-    # Forward pass
-    y_pred = model(X)
-    loss = criterion(y_pred, y)
-    
-    # Backward pass and optimize
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
-```
 
 ## VI. Advantages and Considerations
 
@@ -3204,9 +3092,7 @@ for epoch in range(100):
 ### Gradient Descent Conditions 
 
 
-1. We need to be able to take very small steps in the direction that minimizes the error, which is only possible if our error 
-function is continuous. With a discrete error function (such as a simple count of the number of misclassified points), a 
-single small change may not have any detectable effect on the error.
+1. We need to be able to take very small steps in the direction that minimizes the error, which is only possible if our error function is continuous. With a discrete error function (such as a simple count of the number of misclassified points), a single small change may not have any detectable effect on the error.
 
 2. We also mentioned that the error function should be differentiable.
 
