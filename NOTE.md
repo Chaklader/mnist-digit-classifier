@@ -1,7 +1,3 @@
-# C-4: Intro to Neural Networks
-# C-5: Training Neural Networks
-
-
 # Introduction to Deep Learning
 
 <br>
@@ -317,31 +313,6 @@ Often, we are faced with data that is not in a format conducive to use in neural
 7. PyTorch Implementation:
    While PyTorch doesn't have a built-in one-hot encoder, you can easily implement it:
 
-```textmate
-import torch
-import torch.nn.functional as F
-
-# Assume we have categorical data as integers
-data = torch.tensor([0, 2, 1, 1, 0, 2])
-num_categories = 3
-
-# One-hot encode
-one_hot = F.one_hot(data, num_classes=num_categories)
-
-print(one_hot)
-```
-
-This will output:
-
-```textmate
-tensor([[1, 0, 0],
-        [0, 0, 1],
-        [0, 1, 0],
-        [0, 1, 0],
-        [1, 0, 0],
-        [0, 0, 1]])
-```
-
 8. When to use One-Hot Encoding vs Label Encoding:
    - Use One-Hot Encoding for nominal categorical variables (no inherent order).
    - Use Label Encoding for ordinal categorical variables (have a natural order).
@@ -353,44 +324,31 @@ relationships between categories. It ensures that the machine learning model tre
 
 
 
-Error Function 
+## Error Function 
 
-An error function is simply a function that measures how far the current state is from the solution. We can calculate the 
-error and then make a change in an attempt to reduce the error—and then repeat this process until we have reduced the error 
-to an acceptable level.
+An error function is simply a function that measures how far the current state is from the solution. We can calculate the error and then make a change in an attempt to reduce the error—and then repeat this process until we have reduced the error to an acceptable level.
 
 
+## Log-Loss Error Function
 
-Log-Loss Error Function
+Discrete and Continuous Errors One approach to reducing errors might be to simply count the number of errors and then make changes until the number of errors is reduced. But taking a discrete approach like this can be problematic—for example, we could change our line in a way that gets closer to the solution, but this change might not (by itself) improve the number of misclassified points.
 
-Discrete and Continuous Errors
-One approach to reducing errors might be to simply count the number of errors and then make changes until the number of 
-errors is reduced. But taking a discrete approach like this can be problematic—for example, we could change our line in 
-a way that gets closer to the solution, but this change might not (by itself) improve the number of misclassified points.
+Instead, we need to construct an error function that is continuous. That way, we can always tell if a small change in the line gets us closer to the solution. We'll do that in this lesson using the log-loss error function. Generally speaking, the log-loss function will assign a large penalty to incorrectly classified points and small penalties to correctly classified points. For a point that is misclassified, the penalty is roughly the distance from the boundary to the point. For a point that is correctly classified, the penalty is almost zero.
 
-Instead, we need to construct an error function that is continuous. That way, we can always tell if a small change in the 
-line gets us closer to the solution. We'll do that in this lesson using the log-loss error function. Generally speaking, 
-the log-loss function will assign a large penalty to incorrectly classified points and small penalties to correctly classified 
-points. For a point that is misclassified, the penalty is roughly the distance from the boundary to the point. For a point that 
-is correctly classified, the penalty is almost zero.
+We can then calculate a total error by adding all the errors from the corresponding points. Then we can use gradient descent to solve the problem, making very tiny changes to the parameters of the line in order to decrease the total error until we have reached an acceptable minimum.
 
-We can then calculate a total error by adding all the errors from the corresponding points. Then we can use gradient descent 
-to solve the problem, making very tiny changes to the parameters of the line in order to decrease the total error until we 
-have reached an acceptable minimum.
-
-We need to cover some other concepts before we get into the specifics of how to calculate our log-loss function, but we'll 
-come back to it when we dive into gradient descent later in the lesson.
+We need to cover some other concepts before we get into the specifics of how to calculate our log-loss function, but we'll come back to it when we dive into gradient descent later in the lesson.
 
 
 
-# Log-Loss Error Function and Its Use in Gradient Descent
+## Log-Loss Error Function and Its Use in Gradient Descent
 
 
-## I. Introduction to Log-Loss Error Function
+### Introduction to Log-Loss Error Function
 
 The Log-Loss Error Function, also known as Cross-Entropy Loss, is a widely used loss function in machine learning, particularly for binary and multi-class classification problems.
 
-### A. Definition
+### Definition
 
 For binary classification, the Log-Loss function is defined as:
 
@@ -401,13 +359,13 @@ Where:
 - yi is the true label (0 or 1)
 - ŷi is the predicted probability of the positive class
 
-### B. Characteristics
+### Characteristics
 
 1. Always positive: Log-Loss is always ≥ 0
 2. Perfect prediction: Log-Loss = 0 when the model predicts the correct class with 100% confidence
 3. Penalizes confident mistakes: Heavily penalizes predictions that are both confident and wrong
 
-## II. Log-Loss in Multi-class Classification
+## Log-Loss in Multi-class Classification
 
 For multi-class problems, the formula extends to:
 
@@ -419,18 +377,18 @@ Where:
 - ŷij is the predicted probability that sample i belongs to class j
 
 
-## III. Why Use Log-Loss?
+## Why Use Log-Loss?
 
 1. Probabilistic interpretation: Directly models probability distributions
 2. Differentiable: Suitable for optimization algorithms like gradient descent
 3. Handles imbalanced datasets well
 4. Provides smoother gradients compared to other loss functions (e.g., 0-1 loss)
 
-## IV. Log-Loss and Gradient Descent
+## Log-Loss and Gradient Descent
 
 Gradient Descent is an optimization algorithm used to minimize the loss function by iteratively adjusting the model parameters.
 
-### A. Gradient Descent Process
+### Gradient Descent Process
 
 1. Initialize model parameters randomly
 2. Calculate the predicted probabilities using current parameters
@@ -439,7 +397,7 @@ Gradient Descent is an optimization algorithm used to minimize the loss function
 5. Update parameters in the opposite direction of the gradient
 6. Repeat steps 2-5 until convergence
 
-### B. Gradient Calculation
+### Gradient Calculation
 
 For logistic regression (binary classification), the gradient of Log-Loss with respect to weights w is:
 
@@ -450,56 +408,21 @@ Where:
 - ŷ is the vector of predicted probabilities
 - y is the vector of true labels
 
-### C. Parameter Update Rule
+### Parameter Update Rule
 
 w_new = w_old - α ∂L/∂w
 
 Where α is the learning rate.
 
-## V. Implementation in PyTorch
+## Advantages and Considerations
 
-PyTorch provides built-in functions for Log-Loss and automatic gradient computation:
-
-
-
-```textmate
-import torch
-import torch.nn as nn
-
-# Define model
-class LogisticRegression(nn.Module):
-    def __init__(self, input_dim):
-        super(LogisticRegression, self).__init__()
-        self.linear = nn.Linear(input_dim, 1)
-    
-    def forward(self, x):
-        return torch.sigmoid(self.linear(x))
-
-# Create model, loss function, and optimizer
-model = LogisticRegression(input_dim=10)
-criterion = nn.BCELoss()  # Binary Cross-Entropy Loss
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
-
-# Training loop
-for epoch in range(100):
-    # Forward pass
-    y_pred = model(X)
-    loss = criterion(y_pred, y)
-    
-    # Backward pass and optimize
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
-```
-
-## VI. Advantages and Considerations
-
-### A. Advantages
+### Advantages
 1. Works well for probabilistic classification
 2. Provides smooth gradients for optimization
 3. Naturally handles multi-class problems
 
-### B. Considerations
+### Considerations
+
 1. Sensitive to outliers
 2. May lead to overfitting if not regularized
 3. Assumes independence between features (in logistic regression)
@@ -509,9 +432,7 @@ for epoch in range(100):
 ### Gradient Descent Conditions 
 
 
-1. We need to be able to take very small steps in the direction that minimizes the error, which is only possible if our error 
-function is continuous. With a discrete error function (such as a simple count of the number of misclassified points), a 
-single small change may not have any detectable effect on the error.
+1. We need to be able to take very small steps in the direction that minimizes the error, which is only possible if our error function is continuous. With a discrete error function (such as a simple count of the number of misclassified points), a single small change may not have any detectable effect on the error.
 
 2. We also mentioned that the error function should be differentiable.
 
@@ -523,155 +444,34 @@ especially when implemented with modern deep learning frameworks like PyTorch.
 
 
 
-## Python implementation of the Log-Loss function for binary classification based on the given formula
-
-
-This Python code implements the Log-Loss function for binary classification as you specified. Here's a breakdown of the implementation:
-
-
-```textmate
-import numpy as np
-
-def binary_log_loss(y_true, y_pred):
-    """
-    Calculate the Log-Loss (Binary Cross-Entropy) for binary classification.
-    
-    Parameters:
-    y_true (array-like): True binary labels (0 or 1)
-    y_pred (array-like): Predicted probabilities for the positive class
-    
-    Returns:
-    float: The calculated Log-Loss
-    """
-    # Ensure inputs are numpy arrays
-    y_true = np.array(y_true)
-    y_pred = np.array(y_pred)
-    
-    # Clip predicted values to avoid log(0)
-    eps = 1e-15
-    y_pred = np.clip(y_pred, eps, 1 - eps)
-    
-    # Calculate log loss
-    N = len(y_true)
-    loss = -1/N * np.sum(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
-    
-    return loss
-
-# Example usage
-if __name__ == "__main__":
-    y_true = np.array([1, 0, 1, 1, 0])
-    y_pred = np.array([0.9, 0.1, 0.8, 0.7, 0.2])
-    
-    loss = binary_log_loss(y_true, y_pred)
-    print(f"Log-Loss: {loss:.4f}")
-```
-
-1. We define a function binary_log_loss that takes two parameters: y_true (actual labels) and y_pred (predicted probabilities).
-2. The function converts inputs to NumPy arrays for efficient computation.
-3. We clip the predicted probabilities to avoid taking the log of 0, which would result in undefined behavior.
-4. The Log-Loss is calculated using the formula you provided, leveraging NumPy's vectorized operations for efficiency.
-5. An example usage is provided at the end, demonstrating how to use the function with sample data.
-
-
-This implementation can be easily integrated into a larger machine learning pipeline or used standalone to evaluate binary 
-classification models.
-
-
-## Python implementation of the Log-Loss function for multi-class classification
-
-This Python code implements the Log-Loss function for multi-class classification as per the formula you provided. Here's a breakdown of the implementation:
-
-
-```textmate
-import numpy as np
-
-def multiclass_log_loss(y_true, y_pred):
-    """
-    Calculate the Log-Loss (Categorical Cross-Entropy) for multi-class classification.
-    
-    Parameters:
-    y_true (array-like): True labels in one-hot encoded format (N x M)
-    y_pred (array-like): Predicted probabilities for each class (N x M)
-    
-    Returns:
-    float: The calculated Log-Loss
-    """
-    # Ensure inputs are numpy arrays
-    y_true = np.array(y_true)
-    y_pred = np.array(y_pred)
-    
-    # Clip predicted values to avoid log(0)
-    eps = 1e-15
-    y_pred = np.clip(y_pred, eps, 1 - eps)
-    
-    # Calculate log loss
-    N = y_true.shape[0]  # Number of samples
-    loss = -1/N * np.sum(y_true * np.log(y_pred))
-    
-    return loss
-
-# Example usage
-if __name__ == "__main__":
-    # Example with 3 samples and 4 classes
-    y_true = np.array([
-        [1, 0, 0, 0],
-        [0, 1, 0, 0],
-        [0, 0, 1, 0]
-    ])
-    y_pred = np.array([
-        [0.9, 0.05, 0.03, 0.02],
-        [0.1, 0.7, 0.1, 0.1],
-        [0.05, 0.05, 0.8, 0.1]
-    ])
-    
-    loss = multiclass_log_loss(y_true, y_pred)
-    print(f"Multi-class Log-Loss: {loss:.4f}")
-```
-
-
-1. We define a function multiclass_log_loss that takes two parameters: y_true (actual labels in one-hot encoded format) and y_pred (predicted probabilities for each class).
-2. The function converts inputs to NumPy arrays for efficient computation.
-3. We clip the predicted probabilities to avoid taking the log of 0, which would result in undefined behavior.
-4. The Log-Loss is calculated using the formula you provided. Note that the summation over classes (M) is implicitly handled by NumPy's element-wise multiplication and sum operations.
-5. An example usage is provided at the end, demonstrating how to use the function with sample data for a scenario with 3 samples and 4 classes.
-
-
-Key points about this implementation:
-
-1. It expects y_true to be in one-hot encoded format, where each row represents a sample and each column represents a class.
-2. y_pred should contain predicted probabilities for each class, with each row summing to 1.
-3. The implementation is vectorized, making it efficient for large datasets.
-
-
-
 ## Maximum Likelihood
 
 # Maximum Likelihood Estimation with Sigmoid Function
 
-## I. Introduction
+## Introduction
 
 Maximum Likelihood Estimation (MLE) is a fundamental method in statistics and machine learning for estimating the parameters of a probability distribution. When combined with the sigmoid function, it forms the basis of logistic regression, a powerful tool for binary classification.
 
-## II. The Sigmoid Function
+## The Sigmoid Function
 
-### A. Definition
+### Definition
 
 The sigmoid function, also known as the logistic function, is defined as:
 
 σ(z) = 1 / (1 + e^(-z))
 
-### B. Properties
+### Properties
 
 1. Output range: (0, 1)
 2. S-shaped curve
 3. Symmetric around 0.5
 4. Differentiable
 
-### C. Use in Classification
+### Use in Classification
 
 In binary classification, the sigmoid function is used to map any real-valued number to a probability between 0 and 1.
 
-## III. Logistic Regression Model
+## Logistic Regression Model
 
 In logistic regression, we model the probability of the positive class as:
 
@@ -682,14 +482,13 @@ Where:
 - w is the weight vector
 - b is the bias term
 
-## IV. Maximum Likelihood Estimation
 
+<br>
+<br>
 
+## Maximum Likelihood Estimation
 
-
-
-### A. Likelihood Function
-
+### Likelihood Function
 
 
 For a dataset with n independent samples, the likelihood function is:
@@ -699,21 +498,21 @@ L(w, b) = ∏(i=1 to n) P(Y=yi|Xi)
 
 Where yi is the true label (0 or 1) for the i-th sample.
 
-### B. Log-Likelihood
+### Log-Likelihood
 
 We typically work with the log-likelihood for computational convenience:
 
 ℓ(w, b) = ∑(i=1 to n) [yi log(σ(wᵀXi + b)) + (1-yi) log(1 - σ(wᵀXi + b))]
 
-### C. Maximum Likelihood Estimator
+### Maximum Likelihood Estimator
 
 The goal is to find w and b that maximize the log-likelihood:
 
 (w*, b*) = argmax(w,b) ℓ(w, b)
 
-## V. Optimization
+## Optimization
 
-### A. Gradient Ascent
+### Gradient Ascent
 
 We can use gradient ascent to find the maximum:
 
@@ -722,7 +521,7 @@ b := b + α ∂ℓ/∂b
 
 Where α is the learning rate.
 
-### B. Gradients
+### Gradients
 
 The gradients of the log-likelihood with respect to w and b are:
 
@@ -730,7 +529,11 @@ The gradients of the log-likelihood with respect to w and b are:
 
 ∂ℓ/∂b = ∑(i=1 to n) (yi - σ(wᵀXi + b))
 
-## VI. Connection to Cross-Entropy Loss
+
+<br>
+<br>
+
+## Connection to Cross-Entropy Loss
 
 Maximizing the log-likelihood is equivalent to minimizing the cross-entropy loss:
 
@@ -738,57 +541,10 @@ Cross-Entropy = -1/n ℓ(w, b)
 
 This is why the cross-entropy loss is commonly used as the objective function in logistic regression and neural networks with sigmoid output.
 
-## VII. Implementation in Python
 
-Here's a basic implementation of logistic regression using MLE with the sigmoid function:
+## Conclusion
 
-
-
-```textmate
-import numpy as np
-
-def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
-
-def log_likelihood(X, y, w, b):
-    z = np.dot(X, w) + b
-    ll = np.sum(y * np.log(sigmoid(z)) + (1 - y) * np.log(1 - sigmoid(z)))
-    return ll
-
-def gradient(X, y, w, b):
-    z = np.dot(X, w) + b
-    error = y - sigmoid(z)
-    grad_w = np.dot(X.T, error)
-    grad_b = np.sum(error)
-    return grad_w, grad_b
-
-def logistic_regression(X, y, learning_rate=0.1, num_iterations=1000):
-    m, n = X.shape
-    w = np.zeros(n)
-    b = 0
-    
-    for _ in range(num_iterations):
-        grad_w, grad_b = gradient(X, y, w, b)
-        w += learning_rate * grad_w
-        b += learning_rate * grad_b
-    
-    return w, b
-
-# Example usage
-X = np.array([[1, 2], [2, 3], [3, 4], [4, 5]])
-y = np.array([0, 0, 1, 1])
-w, b = logistic_regression(X, y)
-print("Weights:", w)
-print("Bias:", b)
-```
-
-## VIII. Conclusion
-
-
-Maximum Likelihood Estimation with the sigmoid function provides a powerful framework for binary classification. It forms 
-the basis of logistic regression and is closely related to the cross-entropy loss used in many machine learning models. 
-Understanding this connection helps in interpreting model outputs as probabilities and in choosing appropriate loss functions 
-for classification tasks.
+Maximum Likelihood Estimation with the sigmoid function provides a powerful framework for binary classification. It forms the basis of logistic regression and is closely related to the cross-entropy loss used in many machine learning models. Understanding this connection helps in interpreting model outputs as probabilities and in choosing appropriate loss functions for classification tasks.
 
 
 
@@ -1622,8 +1378,15 @@ def update_weights(weights_input_to_hidden, weights_hidden_to_output,
 ```
 
 
-Intro to Neural Networks
-––––––––––––––––––––––––
+
+# C-5: Training Neural Networks
+
+<br>
+<br>
+
+# C-4: Intro to Neural Networks
+
+<br>
 
 Neural Network Architecture
 
