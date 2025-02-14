@@ -2147,10 +2147,26 @@ Understanding sparse vectors is crucial when:
 - Feature selection is a key consideration in your machine learning task
 
 
-## Dropout in Neural Networks
+<br>
+<br>
+
+## Dropout 
 
 Dropout is a regularization technique used in neural networks to prevent overfitting and improve generalization. It addresses 
 the problem of uneven training across different parts of the network.
+
+
+When training a neural network, sometimes one part of the network has very large weights and it ends up dominating the training, while another part of the network doesn't really play much of a role (so it doesn't get trained).
+
+To solve this, we can use a method called dropout in which we turn part of the network off and let the rest of the network train:
+
+- We go through the epochs and randomly turn off some of the nodes. This forces the other nodes to pick up the slack and take a larger part in the training.
+
+- To drop nodes, we give the algorithm a parameter that indicates the probability that each node will get dropped during each epoch. For example, if we set this parameter to 0.2, this means that during each epoch, each node has a 20% probability of being turned off.
+
+- Note that some nodes may get turned off more than others and some may never get turned off. This is OK since we're doing it over and over; on average, each node will get approximately the same treatment.
+
+
 
 ### The Problem
 
@@ -2261,18 +2277,27 @@ This is why "The model is not sufficiently trained" is the correct answer. The m
 with additional training time.
 
 
+### Local Minima and Random Restart
 
 
-## Vanishing and Exploding Gradients in Deep Neural Networks
+Gradient descent looks at the direction where it can most decrease the error and then it takes a step in that direction. However, if there are multiple low points in the solution space, gradient descent may end up leading us to local minima—solutions where the error is at the lowest point in the local area, but not the lowest point overall.
 
-Vanishing and exploding gradients are common challenges in training deep neural networks. Vanishing gradients occur when 
-gradients become extremely small as they propagate backwards through the network, leading to slow or stalled learning in 
-earlier layers. Exploding gradients, conversely, involve gradients becoming excessively large, causing unstable updates 
-and potential training failure. These issues are particularly prevalent in deep networks and can be caused by factors like 
-network depth, choice of activation functions, and poor weight initialization. Solutions include using ReLU activations, 
-proper weight initialization techniques, gradient clipping, and architectural innovations like skip connections in ResNets 
-or gating mechanisms in LSTMs. Addressing these problems is crucial for effective training of deep neural networks and achieving 
-optimal performance.
+
+### Random Restart
+
+One way to solve our problem is to use random restart. We start (and restart) from a few different random places and do gradient descend from all of them. This increases the probability that we'll get to the global minimum, or at least a pretty good local minimum.
+
+
+<br>
+<br>
+
+## Vanishing and Exploding Gradients 
+
+<br>
+
+Vanishing and exploding gradients are common challenges in training deep neural networks. Vanishing gradients occur when gradients become extremely small as they propagate backwards through the network, leading to slow or stalled learning in earlier layers. Exploding gradients, conversely, involve gradients becoming excessively large, causing unstable updates and potential training failure. These issues are particularly prevalent in deep networks and can be caused by factors like network depth, choice of activation functions, and poor weight initialization. 
+
+Solutions include using ReLU activations, proper weight initialization techniques, gradient clipping, and architectural innovations like skip connections in ResNets or gating mechanisms in LSTMs. Addressing these problems is crucial for effective training of deep neural networks and achieving optimal performance.
 
 
 Vanishing and exploding gradients are common problems in training deep neural networks, particularly those with many layers. These issues can significantly impede the learning process and affect the network's performance.
