@@ -1873,6 +1873,8 @@ When presented with a dataset, if we use the whole thing to train our model, the
 Another powerful approach is k-fold cross-validation, where the data is split up into some number, which we call k, equal parts. One is used as the validation set, one is used as the test set, and the remaining parts are used as the training set. We then cycle through all combinations of the data until all parts have had a chance to be the test set.
 
 
+### Overfitting and Underfitting
+
 When we train our models, it is entirely possible to get them to a point where they perform very well on our training data—but 
 then perform very poorly on our testing data. Two common reasons for this are underfitting and overfitting
 
@@ -1899,6 +1901,9 @@ For example, suppose we want our image classifier to recognize dogs, but instead
 ### Applying This to Neural Networks
 
 Generally speaking, underfitting tends to happen with neural networks that have overly simple architecture, while overfitting tends to happen with models that are highly complex. The bad news is, it's really hard to find the right architecture for a neural network. There is a tendency to create a network that either has overly simplistic architecture or overly complicated architecture. In general terms, the approach we will take is to err on the side of an overly complicated model, and then we'll apply certain techniques to reduce the risk of overfitting.
+
+
+### Early Stopping
 
 
 When training our neural network, we start with random weights in the first epoch and then change these weights as we go through additional epochs. Initially, we expect these changes to improve our model as the neural network fits the training data more closely. But after some time, further changes will start to result in overfitting. We can monitor this by measuring both the training error and the testing error. As we train the network, the training error will go down—but at some point, the testing error will start to increase. This indicates overfitting and is a signal that we should stop training the network prior to that point. We can see this relationship in a model complexity graph like this one:
@@ -1942,10 +1947,40 @@ that are classified incorrectly in the model on the right will generate large er
 to correct them.
 
 
-## Regularization in Machine Learning
+### Regularization
+
+Now the question is, how do we prevent this type of overfitting from happening? The trouble is that large coefficients are leading to overfitting, so what we need to do is adjust our error function by, essentially, penalizing large weights.
+
+If you recall, our original error function looks like this:
+
+-1/m ∑(1 - yᵢ)ln(1 - ŷᵢ) + yᵢln(ŷᵢ)
+
+We want to take this and add a term that is big when the weights are big. There are two ways to do this. One way is to add the sums of absolute values of the weights times a constant lambda:
+
++λ(|w₁| + ... + |wₙ|)
+
+The other one is to add the sum of the squares of the weights times that same constant:
+
++λ(w₁² + ... + wₙ²)
+
+In both cases, these terms are large if the weights are large.
+
+### L1 vs L2 Regularization
+
+The first approach (using absolute values) is called L1 regularization, while the second (using squares) is called L2 regularization. Here are some general guidelines for deciding between the two:
+
+### L1 Regularization
+
+* L1 tends to result in sparse vectors. That means small weights will tend to go to zero.
+* If we want to reduce the number of weights and end up with a small set, we can use L1.
+* L1 is also good for feature selection. Sometimes we have a problem with hundreds of features, and L1 regularization will help us select which ones are important, turning the rest into zeroes.
+
+### L2 Regularization
+
+* L2 tends not to favor sparse vectors since it tries to maintain all the weights homogeneously small.
+* L2 gives better results for training models so it's the one we'll use the most.
 
 
-Regularization is a technique used in machine learning to prevent overfitting by adding a penalty term to the error function. It helps to control the model's complexity and improve its generalization ability.
 
 ###  The Problem of Overfitting
 
@@ -1954,7 +1989,10 @@ Regularization is a technique used in machine learning to prevent overfitting by
    but the function becomes much steeper.
 3. This steeper function is harder for gradient descent and can lead to overfitting.
 
-### Regularization 
+
+<br>
+<img src="images/certain.png" width=600 height=auto>
+<br>
 
 Regularization prevents overfitting by penalizing large weights in the model. It modifies the error function by adding a term that grows as weights increase.
 
@@ -1992,6 +2030,16 @@ Characteristics:
 Where:
 - λ (lambda) is the regularization parameter
 - wᵢ are the model weights
+
+
+<br>
+<img src="images/panalty.png" width=600 height=auto>
+<br>
+
+
+<br>
+<img src="images/panalty_1.png" width=600 height=auto>
+<br>
 
 ### Choosing Between L1 and L2 Regularization
 
