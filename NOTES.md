@@ -10,7 +10,7 @@
 
 <br>
 <div align="center">
-   <img src="images/ml.png" width="600" height=auto/>
+   <img src="images/ml.png" alt="AI, ML, and DL Relationship" width="600" height=auto/>
    <p>Figure: AI, ML, and DL Relationship</p>
 </div>
 <br>
