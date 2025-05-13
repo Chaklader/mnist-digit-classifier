@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-admissions = pd.read_csv('binary.csv')
+admissions = pd.read_csv('data/binary.csv')
 
 # Make dummy variables for rank
 data = pd.get_dummies(admissions, prefix='rank', columns=['rank'])
